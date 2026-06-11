@@ -29,6 +29,58 @@ const images = {
     src: "https://www.hennnahotel.com/hakata/wp-content/uploads/2023/09/image0.jpeg",
     alt: "福岡中洲與天神一帶的屋台",
   },
+  coffee: {
+    src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=900&q=80",
+    alt: "咖啡杯與咖啡店桌面",
+  },
+  bakery: {
+    src: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80",
+    alt: "麵包店裡的新鮮麵包",
+  },
+  seafood: {
+    src: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?auto=format&fit=crop&w=900&q=80",
+    alt: "壽司與海鮮餐點",
+  },
+  ramen: {
+    src: "https://images.unsplash.com/photo-1557872943-16a5ac26437e?auto=format&fit=crop&w=900&q=80",
+    alt: "拉麵與溏心蛋",
+  },
+  curry: {
+    src: "https://images.unsplash.com/photo-1631292784640-2b24be784d5d?auto=format&fit=crop&w=900&q=80",
+    alt: "咖哩餐點",
+  },
+  sweets: {
+    src: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=80",
+    alt: "甜點與莓果",
+  },
+  souvenir: {
+    src: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=900&q=80",
+    alt: "包裝精緻的伴手禮",
+  },
+  cafeCounter: {
+    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80",
+    alt: "咖啡店吧台與手沖咖啡",
+  },
+  croissant: {
+    src: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80",
+    alt: "可頌與烘焙麵包",
+  },
+  dessertPlate: {
+    src: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=80",
+    alt: "盤中的甜點與糖粉",
+  },
+  marketSushi: {
+    src: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=900&q=80",
+    alt: "市場裡的壽司與海鮮",
+  },
+  friedSnack: {
+    src: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=900&q=80",
+    alt: "炸物小吃",
+  },
+  giftBoxes: {
+    src: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=900&q=80",
+    alt: "伴手禮盒與包裝",
+  },
   ohori: {
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/%E5%A4%A7%E6%BF%A0%E5%85%AC%E5%9C%92_%283360365578%29.jpg/250px-%E5%A4%A7%E6%BF%A0%E5%85%AC%E5%9C%92_%283360365578%29.jpg",
     alt: "大濠公園湖邊步道",
@@ -795,9 +847,11 @@ const restaurants = [
     type: "麵包咖啡",
     area: "博多",
     day: "Day 5 / Day 6",
+    image: images.bakery,
     body: "圖片 Day 1 必吃，但因 6/25 下午才從台灣起飛，建議改到彈性日或返程日上午當早餐、輕食或咖啡休息點。",
     links: [
       { label: "地圖", url: mapLink("THE FULL FULL HAKATA") },
+      { label: "Google 評論照片", url: mapLink("THE FULL FULL HAKATA") },
       { label: "查找", url: searchLink("THE FULL FULL HAKATA 福岡") },
     ],
   },
@@ -806,9 +860,11 @@ const restaurants = [
     type: "咖啡甜點",
     area: "博多 / 天神",
     day: "Day 5 / Day 6",
+    image: images.cafeCounter,
     body: "福岡在地咖啡品牌，適合排在市區散步中途。抵達日太晚，建議改到彈性日或最後補買日。",
     links: [
       { label: "地圖", url: mapLink("FUK COFFEE 福岡") },
+      { label: "Google 評論照片", url: mapLink("FUK COFFEE 福岡") },
       { label: "查找", url: searchLink("FUK COFFEE 福岡") },
     ],
   },
@@ -817,9 +873,11 @@ const restaurants = [
     type: "麵包咖啡",
     area: "天神 / 箱崎",
     day: "Day 5 / Day 6",
+    image: images.bakery,
     body: "圖片推薦麵包店。名氣高，建議當早餐或外帶點心；不要放在抵達日，也不要為它硬拉太遠路線。",
     links: [
       { label: "地圖", url: mapLink("Pain Stock 福岡") },
+      { label: "Google 評論照片", url: mapLink("Pain Stock 福岡") },
       { label: "查找", url: searchLink("Pain Stock 福岡") },
     ],
   },
@@ -828,9 +886,11 @@ const restaurants = [
     type: "正餐",
     area: "福岡市區",
     day: "Day 1",
+    image: images.curry,
     body: "圖片 Day 1 晚餐候選。抵達後若還有體力、且店家營業時間符合，可作為坐下來好好吃飯的替代方案；否則改屋台或飯店附近餐廳。",
     links: [
       { label: "地圖", url: mapLink("花柚香 湯咖哩 福岡") },
+      { label: "Google 評論照片", url: mapLink("花柚香 湯咖哩 福岡") },
       { label: "查找", url: searchLink("花柚香 湯咖哩 福岡") },
     ],
   },
@@ -839,9 +899,11 @@ const restaurants = [
     type: "咖啡甜點",
     area: "天神",
     day: "Day 1 / Day 5",
+    image: images.dessertPlate,
     body: "新天町商店街好逛，甜點可當彈性補位。適合放在天神地下街、新天町一起走。",
     links: [
       { label: "地圖", url: mapLink("新天町商店街 福岡 甜點") },
+      { label: "Google 評論照片", url: mapLink("新天町商店街 福岡 甜點") },
       { label: "查找", url: searchLink("新天町商店街 甜點 福岡") },
     ],
   },
@@ -850,9 +912,11 @@ const restaurants = [
     type: "海鮮",
     area: "唐戶 / 下關",
     day: "Day 2",
+    image: images.marketSushi,
     body: "門司港一日遊的午餐重點。市場壽司與海鮮小吃適合多人分食，但熱門時段人潮多。",
     links: [
       { label: "地圖", url: mapLink("唐戶市場") },
+      { label: "Google 評論照片", url: mapLink("唐戶市場") },
       { label: "查找", url: searchLink("唐戶市場 壽司 推薦") },
     ],
   },
@@ -861,9 +925,11 @@ const restaurants = [
     type: "正餐",
     area: "門司港",
     day: "Day 2",
+    image: images.curry,
     body: "門司港代表美食。若唐戶市場沒有排上，可改吃燒咖哩當午餐或下午早晚餐。",
     links: [
       { label: "地圖", url: mapLink("門司港 燒咖哩") },
+      { label: "Google 評論照片", url: mapLink("門司港 燒咖哩") },
       { label: "查找", url: searchLink("門司港 燒咖哩 推薦") },
     ],
   },
@@ -872,9 +938,11 @@ const restaurants = [
     type: "小吃",
     area: "由布院",
     day: "Day 3",
+    image: images.friedSnack,
     body: "湯之坪街道常見排隊小吃，適合當邊走邊吃，不建議當正餐核心。",
     links: [
       { label: "地圖", url: mapLink("金賞コロッケ 湯布院") },
+      { label: "Google 評論照片", url: mapLink("金賞コロッケ 湯布院") },
       { label: "查找", url: searchLink("湯布院 金賞コロッケ") },
     ],
   },
@@ -883,9 +951,11 @@ const restaurants = [
     type: "小吃",
     area: "由布院",
     day: "Day 3",
+    image: images.friedSnack,
     body: "圖片由布院必吃。適合和可樂餅、甜點一起組成散策小吃線。",
     links: [
       { label: "地圖", url: mapLink("吉吾 湯布院 唐揚げ") },
+      { label: "Google 評論照片", url: mapLink("吉吾 湯布院 唐揚げ") },
       { label: "查找", url: searchLink("湯布院 吉吾 炸雞") },
     ],
   },
@@ -894,9 +964,11 @@ const restaurants = [
     type: "咖啡甜點",
     area: "由布院",
     day: "Day 3",
+    image: images.sweets,
     body: "偏造型與拍照型甜點，適合喜歡可愛小物的旅伴。若時間緊，金鱗湖優先。",
     links: [
       { label: "地圖", url: mapLink("湯布院 貓頭鷹 甜點") },
+      { label: "Google 評論照片", url: mapLink("湯布院 貓頭鷹 甜點") },
       { label: "查找", url: searchLink("湯布院 貓頭鷹 甜點") },
     ],
   },
@@ -905,9 +977,11 @@ const restaurants = [
     type: "拉麵",
     area: "中洲",
     day: "Day 3 / Day 5",
+    image: images.ramen,
     body: "回博多後最穩的晚餐候選之一。若由布院回程延誤，拉麵比訂位餐廳更有彈性。",
     links: [
       { label: "地圖", url: mapLink("一蘭 本社総本店") },
+      { label: "Google 評論照片", url: mapLink("一蘭 本社総本店") },
       { label: "官方", url: "https://ichiran.com/" },
     ],
   },
@@ -916,9 +990,11 @@ const restaurants = [
     type: "小吃",
     area: "太宰府",
     day: "Day 4",
+    image: images.dazaifu,
     body: "太宰府參道必吃，外皮烤香、內餡紅豆。多家店可買，不必只鎖定單一店。",
     links: [
       { label: "地圖", url: mapLink("太宰府 梅枝餅") },
+      { label: "Google 評論照片", url: mapLink("太宰府 梅枝餅") },
       { label: "查找", url: searchLink("太宰府 梅枝餅 推薦") },
     ],
   },
@@ -927,9 +1003,11 @@ const restaurants = [
     type: "拉麵",
     area: "天神",
     day: "Day 4 / Day 5",
+    image: images.ramen,
     body: "圖片推薦沾麵。適合排在天神晚餐，但熱門時段可能排隊，建議保留備案。",
     links: [
       { label: "地圖", url: mapLink("麺屋 兼虎 天神") },
+      { label: "Google 評論照片", url: mapLink("麺屋 兼虎 天神") },
       { label: "查找", url: searchLink("麵屋兼虎 天神") },
     ],
   },
@@ -938,9 +1016,11 @@ const restaurants = [
     type: "伴手禮",
     area: "博多",
     day: "Day 6",
+    image: images.giftBoxes,
     body: "福岡經典伴手禮。最後一天可在博多站、機場或福太郎相關店鋪集中購買。",
     links: [
       { label: "地圖", url: mapLink("福太郎 博多 明太子") },
+      { label: "Google 評論照片", url: mapLink("福太郎 博多 明太子") },
       { label: "查找", url: searchLink("福太郎 明太子 博多") },
     ],
   },
@@ -949,9 +1029,11 @@ const restaurants = [
     type: "伴手禮",
     area: "博多",
     day: "Day 6",
+    image: images.souvenir,
     body: "圖片伴手禮清單之一。適合帶回辦公室或分送，博多站與機場通常容易找到。",
     links: [
       { label: "地圖", url: mapLink("博多 通りもん") },
+      { label: "Google 評論照片", url: mapLink("博多 通りもん") },
       { label: "查找", url: searchLink("博多通りもん 伴手禮") },
     ],
   },
@@ -960,9 +1042,11 @@ const restaurants = [
     type: "伴手禮",
     area: "博多",
     day: "Day 6",
+    image: images.giftBoxes,
     body: "福岡經典面具造型煎餅，輕巧好分送。可和明太子、拉麵一起最後補買。",
     links: [
       { label: "地圖", url: mapLink("二〇加煎餅 博多") },
+      { label: "Google 評論照片", url: mapLink("二〇加煎餅 博多") },
       { label: "查找", url: searchLink("二〇加煎餅 福岡 伴手禮") },
     ],
   },
@@ -971,9 +1055,11 @@ const restaurants = [
     type: "伴手禮",
     area: "博多",
     day: "Day 6",
+    image: images.souvenir,
     body: "圖片伴手禮建議之一。適合買年輪蛋糕、和菓子類甜點，保存期限出發前要確認。",
     links: [
       { label: "地圖", url: mapLink("如水庵 博多") },
+      { label: "Google 評論照片", url: mapLink("如水庵 博多") },
       { label: "查找", url: searchLink("如水庵 福岡 伴手禮") },
     ],
   },
@@ -1187,6 +1273,11 @@ function renderFood() {
     .map(
       (restaurant) => `
         <article class="place-card food-card">
+          ${
+            restaurant.image
+              ? `<img class="place-image" src="${restaurant.image.src}" alt="${restaurant.image.alt}" />`
+              : ""
+          }
           <span class="card-kicker">${restaurant.area} · ${restaurant.day}</span>
           <h4>${restaurant.name}</h4>
           <p>${restaurant.body}</p>
