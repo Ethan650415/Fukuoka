@@ -1,210 +1,32 @@
-<!doctype html>
-<html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#173d36" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="福岡旅伴" />
-    <title>福岡旅伴手冊｜6/25-6/30</title>
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="旅行導覽">
-        <div class="brand">
-          <div class="brand-mark">福</div>
-          <div>
-            <p class="eyebrow">Internal trip app</p>
-            <h1>福岡旅伴手冊</h1>
-          </div>
-        </div>
-
-        <nav class="nav-tabs" aria-label="主要頁面">
-          <button class="nav-tab is-active" data-view="overview">總覽</button>
-          <button class="nav-tab" data-view="itinerary">每日行程</button>
-          <button class="nav-tab" data-view="places">景點資料</button>
-          <button class="nav-tab" data-view="food">店家推薦</button>
-          <button class="nav-tab" data-view="notes">備註</button>
-        </nav>
-
-        <section class="trip-meta" aria-label="旅行資訊">
-          <div>
-            <span>日期</span>
-            <strong>2026/6/25 - 6/30</strong>
-          </div>
-          <div>
-            <span>航班</span>
-            <strong>6/25 14:25 TPE 出發｜6/30 17:55 FUK 返程</strong>
-          </div>
-          <div>
-            <span>目的地</span>
-            <strong>日本・福岡</strong>
-          </div>
-          <div>
-            <span>用途</span>
-            <strong>內部旅伴共享</strong>
-          </div>
-        </section>
-      </aside>
-
-      <main>
-        <section class="hero" aria-label="福岡旅行首頁">
-          <div class="hero-copy">
-            <p class="eyebrow">June 25 - June 30</p>
-            <p>
-              6/25 下午 2:25 從台灣起飛，抵達福岡已接近傍晚，所以第一天改成放行李、晚餐與輕鬆市區散步。
-              6/30 下午 5:55 從福岡回程，最後一天只安排補買、整理行李與提早到機場。
-            </p>
-          </div>
-          <div class="weather-strip" aria-label="旅行節奏">
-            <div>
-              <span>市區</span>
-              <strong>博多、天神、中洲、大濠</strong>
-            </div>
-            <div>
-              <span>近郊</span>
-              <strong>太宰府、柳川、糸島</strong>
-            </div>
-            <div>
-              <span>最後</span>
-              <strong>伴手禮、行李、機場</strong>
-            </div>
-          </div>
-        </section>
-
-        <section class="view is-visible" id="overview">
-          <div class="section-heading">
-            <h3>旅行總覽</h3>
-            <p>先把這趟的節奏抓住：圖片行程很好用，但有幾段需要重新排序，避免交通時間吃掉體力。</p>
-          </div>
-          <div class="overview-grid">
-            <article class="info-card">
-              <span class="card-kicker">Flight</span>
-              <h4>航班時間倒推</h4>
-              <p>6/25 傍晚抵達後只排博多/天神/中洲晚餐；6/30 建議 15:30 前後抵達福岡機場，午餐後不再排遠點。</p>
-              <button class="ghost-button" data-copy="6/25 14:25 台灣起飛；6/30 17:55 福岡回程，建議 15:30 前後抵達機場。">複製航班提醒</button>
-            </article>
-            <article class="info-card">
-              <span class="card-kicker">Route</span>
-              <h4>行程主軸</h4>
-              <p>抵達日市區、門司港/唐戶、由布院、太宰府+柳川、糸島或宮地嶽、最後補買去機場。</p>
-              <button class="ghost-button" data-copy="抵達日市區、門司港/唐戶、由布院、太宰府+柳川、糸島或宮地嶽、最後補買去機場。">複製行程摘要</button>
-            </article>
-            <article class="info-card">
-              <span class="card-kicker">Why Fukuoka</span>
-              <h4>抵達日改輕量</h4>
-              <p>福岡機場到市區很近，但下午 2:25 才從台灣起飛，第一晚建議只排飯店周邊晚餐、屋台或便利商店採買。</p>
-              <button class="ghost-button" data-copy="6/25 抵達已接近傍晚，第一晚只排飯店周邊晚餐、屋台或輕鬆散步。">複製抵達日提醒</button>
-            </article>
-            <article class="info-card">
-              <span class="card-kicker">Food</span>
-              <h4>美食方向</h4>
-              <p>圖片推薦店家已整理到「店家推薦」頁，包含麵包咖啡、唐戶市場、由布院小吃、太宰府與伴手禮。</p>
-              <button class="ghost-button" data-copy="麵包咖啡、唐戶市場、由布院小吃、太宰府梅枝餅、明太子與伴手禮。">複製美食清單</button>
-            </article>
-          </div>
-          <div class="section-heading compact-heading">
-            <h3>合理性檢查</h3>
-            <p>根據圖片內容調整成較不趕、比較適合同行旅伴執行的版本。</p>
-          </div>
-          <div class="overview-grid">
-            <article class="info-card">
-              <span class="card-kicker">Adjusted</span>
-              <h4>門司港不要硬接宮地嶽</h4>
-              <p>圖片 Day 2 把門司港、唐戶市場、宮地嶽、LaLaport 串在一起，移動跨度大。建議門司港和唐戶市場獨立一天，宮地嶽改成糸島雨天備案。</p>
-            </article>
-            <article class="info-card">
-              <span class="card-kicker">Reserve</span>
-              <h4>由布院要先處理交通</h4>
-              <p>由布院一日遊合理，但特急列車座位和回程時間要先確定。晚餐不要排太遠，回博多後選一蘭總本店或飯店附近最穩。</p>
-            </article>
-            <article class="info-card">
-              <span class="card-kicker">Merged</span>
-              <h4>太宰府可併柳川</h4>
-              <p>圖片 Day 4 單排太宰府偏鬆。第一次福岡可保留太宰府，再接柳川遊船與鰻魚飯，比只逛天神商店街更有旅行感。</p>
-            </article>
-          </div>
-          <div class="overview-photo-grid" aria-label="福岡旅行精選圖片">
-            <figure class="photo-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Fukuoka_Airport_Domestic_Terminal.jpg/250px-Fukuoka_Airport_Domestic_Terminal.jpg" alt="福岡機場國內線航廈外觀" />
-              <figcaption>福岡機場</figcaption>
-            </figure>
-            <figure class="photo-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Hakata_Station_illuminations.JPG/250px-Hakata_Station_illuminations.JPG" alt="博多站與 JR Hakata City 夜間外觀" />
-              <figcaption>博多站</figcaption>
-            </figure>
-            <figure class="photo-card">
-              <img src="https://www.hennnahotel.com/hakata/wp-content/uploads/2023/09/image0.jpeg" alt="福岡中洲與天神一帶的屋台" />
-              <figcaption>中洲屋台</figcaption>
-            </figure>
-            <figure class="photo-card">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Yanagawa-kawakudari.jpg/250px-Yanagawa-kawakudari.jpg" alt="柳川水鄉遊船" />
-              <figcaption>柳川</figcaption>
-            </figure>
-            <figure class="photo-card">
-              <img src="https://www.city.fukuoka.lg.jp/nishiku/c-shinko/charm/event/images/futamigaura.JPG" alt="糸島二見浦夫婦岩與白色鳥居" />
-              <figcaption>糸島</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section class="view" id="itinerary">
-          <div class="section-heading">
-            <h3>每日行程</h3>
-            <p>點選日期查看安排。6/29 先保留成彈性補位日，6/30 是補買與返程。</p>
-          </div>
-          <div class="date-switcher" id="dateSwitcher"></div>
-          <div class="day-panel" id="dayPanel"></div>
-        </section>
-
-        <section class="view" id="places">
-          <div class="section-heading">
-            <h3>景點資料</h3>
-            <p>每個點都有簡述與外部查找連結，方便旅伴臨時查交通、營業時間和評價。</p>
-          </div>
-          <div class="filter-row" id="placeFilters"></div>
-          <div class="places-grid" id="placesGrid"></div>
-        </section>
-
-        <section class="view" id="food">
-          <div class="section-heading">
-            <h3>店家推薦</h3>
-            <p>依照圖片中的必吃清單整理，補上適合安排的日期、簡述與外部查找連結。營業時間請出發前再點連結確認。</p>
-          </div>
-          <div class="overview-photo-grid food-photo-strip" id="foodPhotoStrip" aria-label="店家推薦圖片"></div>
-          <div class="filter-row" id="foodFilters"></div>
-          <div class="places-grid" id="foodGrid"></div>
-        </section>
-
-        <section class="view" id="notes">
-          <div class="section-heading">
-            <h3>旅伴備註</h3>
-            <p id="notesStatus">備註載入中...</p>
-          </div>
-          <div class="notes-layout">
-            <form id="noteForm" class="note-form">
-              <label>
-                標題
-                <input id="noteTitle" name="title" placeholder="例如：要預約的餐廳" required />
-              </label>
-              <label>
-                內容
-                <textarea id="noteBody" name="body" placeholder="寫下旅伴都需要看到的事情" required></textarea>
-              </label>
-              <button type="submit">新增備註</button>
-            </form>
-            <div class="note-list" id="noteList"></div>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="./config.js?v=13"></script>
-    <script src="./app.js?v=13"></script>
-  </body>
-</html>
+{
+  "name": "福岡旅伴手冊",
+  "short_name": "福岡旅伴",
+  "description": "6/25-6/30 福岡內部旅伴行程、景點、備註與查找連結。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfaf6",
+  "theme_color": "#173d36",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
