@@ -1322,6 +1322,9 @@ function renderFood() {
 const appConfig = window.TRIP_APP_CONFIG || {};
 const notesTable = appConfig.notesTable || "trip_notes";
 const hasCloudNotes = Boolean(appConfig.supabaseUrl && appConfig.supabaseAnonKey);
+const supabaseBaseUrl = (appConfig.supabaseUrl || "")
+  .replace(/\/rest\/v1\/?$/, "")
+  .replace(/\/$/, "");
 
 function noteHeaders() {
   return {
@@ -1332,7 +1335,7 @@ function noteHeaders() {
 }
 
 function notesEndpoint(query = "") {
-  return `${appConfig.supabaseUrl}/rest/v1/${notesTable}${query}`;
+  return `${supabaseBaseUrl}/rest/v1/${notesTable}${query}`;
 }
 
 function localNotes() {
