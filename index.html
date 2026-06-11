@@ -27,6 +27,7 @@
           <button class="nav-tab is-active" data-view="overview">總覽</button>
           <button class="nav-tab" data-view="itinerary">每日行程</button>
           <button class="nav-tab" data-view="places">景點資料</button>
+          <button class="nav-tab" data-view="food">店家推薦</button>
           <button class="nav-tab" data-view="notes">備註</button>
         </nav>
 
@@ -34,6 +35,10 @@
           <div>
             <span>日期</span>
             <strong>2026/6/25 - 6/30</strong>
+          </div>
+          <div>
+            <span>航班</span>
+            <strong>6/25 14:25 TPE 出發｜6/30 17:55 FUK 返程</strong>
           </div>
           <div>
             <span>目的地</span>
@@ -50,10 +55,10 @@
         <section class="hero" aria-label="福岡旅行首頁">
           <div class="hero-copy">
             <p class="eyebrow">June 25 - June 30</p>
-            <h2>市區兩天、近郊兩天，最後一天補買去機場。</h2>
+            <h2>把圖片行程整理成更適合 6/25-6/30 的福岡版。</h2>
             <p>
-              福岡機場離市區很近，抵達日也能玩。這版先按照「博多/天神/中洲、福岡市區慢玩、
-              太宰府+柳川、糸島、補買去機場」的節奏整理，景點都有外部查找連結。
+              6/25 下午 2:25 從台灣起飛，抵達福岡已接近傍晚，所以第一天改成放行李、晚餐與輕鬆市區散步。
+              6/30 下午 5:55 從福岡回程，最後一天只安排補買、整理行李與提早到機場。
             </p>
           </div>
           <div class="weather-strip" aria-label="旅行節奏">
@@ -75,26 +80,53 @@
         <section class="view is-visible" id="overview">
           <div class="section-heading">
             <h3>旅行總覽</h3>
-            <p>先把這趟的節奏抓住：不要硬塞遠程城市，把時間留給福岡市區、舒服近郊和好吃好買。</p>
+            <p>先把這趟的節奏抓住：圖片行程很好用，但有幾段需要重新排序，避免交通時間吃掉體力。</p>
           </div>
           <div class="overview-grid">
             <article class="info-card">
+              <span class="card-kicker">Flight</span>
+              <h4>航班時間倒推</h4>
+              <p>6/25 傍晚抵達後只排博多/天神/中洲晚餐；6/30 建議 15:30 前後抵達福岡機場，午餐後不再排遠點。</p>
+              <button class="ghost-button" data-copy="6/25 14:25 台灣起飛；6/30 17:55 福岡回程，建議 15:30 前後抵達機場。">複製航班提醒</button>
+            </article>
+            <article class="info-card">
               <span class="card-kicker">Route</span>
               <h4>行程主軸</h4>
-              <p>市區 2 天、太宰府 + 柳川 1 天、糸島 1 天，最後一天博多/天神補買後去機場。</p>
-              <button class="ghost-button" data-copy="市區2天、太宰府+柳川1天、糸島1天，最後一天補買去機場。">複製行程摘要</button>
+              <p>抵達日市區、門司港/唐戶、由布院、太宰府+柳川、糸島或宮地嶽、最後補買去機場。</p>
+              <button class="ghost-button" data-copy="抵達日市區、門司港/唐戶、由布院、太宰府+柳川、糸島或宮地嶽、最後補買去機場。">複製行程摘要</button>
             </article>
             <article class="info-card">
               <span class="card-kicker">Why Fukuoka</span>
-              <h4>抵達日也能玩</h4>
-              <p>福岡機場到市區很近，放完行李後可先逛博多站、櫛田神社、Canal City，晚上吃屋台。</p>
-              <button class="ghost-button" data-copy="福岡機場離市區近，抵達日放完行李也能安排博多、天神或中洲屋台。">複製抵達日提醒</button>
+              <h4>抵達日改輕量</h4>
+              <p>福岡機場到市區很近，但下午 2:25 才從台灣起飛，第一晚建議只排飯店周邊晚餐、屋台或便利商店採買。</p>
+              <button class="ghost-button" data-copy="6/25 抵達已接近傍晚，第一晚只排飯店周邊晚餐、屋台或輕鬆散步。">複製抵達日提醒</button>
             </article>
             <article class="info-card">
               <span class="card-kicker">Food</span>
               <h4>美食方向</h4>
-              <p>第一碗拉麵、明太子、牛腸鍋、屋台、柳川鰻魚飯，最後再補伴手禮和車站限定商品。</p>
-              <button class="ghost-button" data-copy="拉麵、明太子、牛腸鍋、屋台、柳川鰻魚飯、伴手禮。">複製美食清單</button>
+              <p>圖片推薦店家已整理到「店家推薦」頁，包含麵包咖啡、唐戶市場、由布院小吃、太宰府與伴手禮。</p>
+              <button class="ghost-button" data-copy="麵包咖啡、唐戶市場、由布院小吃、太宰府梅枝餅、明太子與伴手禮。">複製美食清單</button>
+            </article>
+          </div>
+          <div class="section-heading compact-heading">
+            <h3>合理性檢查</h3>
+            <p>根據圖片內容調整成較不趕、比較適合同行旅伴執行的版本。</p>
+          </div>
+          <div class="overview-grid">
+            <article class="info-card">
+              <span class="card-kicker">Adjusted</span>
+              <h4>門司港不要硬接宮地嶽</h4>
+              <p>圖片 Day 2 把門司港、唐戶市場、宮地嶽、LaLaport 串在一起，移動跨度大。建議門司港和唐戶市場獨立一天，宮地嶽改成糸島雨天備案。</p>
+            </article>
+            <article class="info-card">
+              <span class="card-kicker">Reserve</span>
+              <h4>由布院要先處理交通</h4>
+              <p>由布院一日遊合理，但特急列車座位和回程時間要先確定。晚餐不要排太遠，回博多後選一蘭總本店或飯店附近最穩。</p>
+            </article>
+            <article class="info-card">
+              <span class="card-kicker">Merged</span>
+              <h4>太宰府可併柳川</h4>
+              <p>圖片 Day 4 單排太宰府偏鬆。第一次福岡可保留太宰府，再接柳川遊船與鰻魚飯，比只逛天神商店街更有旅行感。</p>
             </article>
           </div>
           <div class="overview-photo-grid" aria-label="福岡旅行精選圖片">
@@ -137,6 +169,15 @@
           </div>
           <div class="filter-row" id="placeFilters"></div>
           <div class="places-grid" id="placesGrid"></div>
+        </section>
+
+        <section class="view" id="food">
+          <div class="section-heading">
+            <h3>店家推薦</h3>
+            <p>依照圖片中的必吃清單整理，補上適合安排的日期、簡述與外部查找連結。營業時間請出發前再點連結確認。</p>
+          </div>
+          <div class="filter-row" id="foodFilters"></div>
+          <div class="places-grid" id="foodGrid"></div>
         </section>
 
         <section class="view" id="notes">
