@@ -1073,6 +1073,7 @@ const placeFilters = document.querySelector("#placeFilters");
 const placesGrid = document.querySelector("#placesGrid");
 const foodFilters = document.querySelector("#foodFilters");
 const foodGrid = document.querySelector("#foodGrid");
+const foodPhotoStrip = document.querySelector("#foodPhotoStrip");
 const toast = document.querySelector("#toast");
 const noteForm = document.querySelector("#noteForm");
 const noteList = document.querySelector("#noteList");
@@ -1263,6 +1264,32 @@ function renderFoodFilters() {
   });
 }
 
+function renderFoodPhotoStrip() {
+  const uniquePhotos = [];
+  const seen = new Set();
+
+  restaurants.forEach((restaurant) => {
+    if (!restaurant.image || seen.has(restaurant.image.src)) return;
+    seen.add(restaurant.image.src);
+    uniquePhotos.push({
+      ...restaurant.image,
+      caption: restaurant.name,
+    });
+  });
+
+  foodPhotoStrip.innerHTML = uniquePhotos
+    .slice(0, 8)
+    .map(
+      (photo) => `
+        <figure class="photo-card">
+          <img src="${photo.src}" alt="${photo.alt}" loading="lazy" />
+          <figcaption>${photo.caption}</figcaption>
+        </figure>
+      `,
+    )
+    .join("");
+}
+
 function renderFood() {
   const visibleRestaurants =
     selectedFoodType === "全部"
@@ -1345,5 +1372,6 @@ renderDayPanel();
 renderPlaceFilters();
 renderPlaces();
 renderFoodFilters();
+renderFoodPhotoStrip();
 renderFood();
 renderNotes();

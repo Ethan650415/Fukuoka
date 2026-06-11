@@ -328,6 +328,11 @@ main {
   margin-top: 16px;
 }
 
+.food-photo-strip {
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  margin: 0 0 18px;
+}
+
 .photo-card {
   position: relative;
   min-width: 0;
