@@ -1077,6 +1077,7 @@ const foodPhotoStrip = document.querySelector("#foodPhotoStrip");
 const toast = document.querySelector("#toast");
 const noteForm = document.querySelector("#noteForm");
 const noteList = document.querySelector("#noteList");
+const notesStatus = document.querySelector("#notesStatus");
 
 let selectedDay = 0;
 let selectedType = "全部";
@@ -1318,24 +1319,82 @@ function renderFood() {
     .join("");
 }
 
-function getNotes() {
+const appConfig = window.TRIP_APP_CONFIG || {};
+const notesTable = appConfig.notesTable || "trip_notes";
+const hasCloudNotes = Boolean(appConfig.supabaseUrl && appConfig.supabaseAnonKey);
+
+function noteHeaders() {
+  return {
+    apikey: appConfig.supabaseAnonKey,
+    Authorization: `Bearer ${appConfig.supabaseAnonKey}`,
+    "Content-Type": "application/json",
+  };
+}
+
+function notesEndpoint(query = "") {
+  return `${appConfig.supabaseUrl}/rest/v1/${notesTable}${query}`;
+}
+
+function localNotes() {
   return JSON.parse(localStorage.getItem("fukuoka-trip-notes") || "[]");
 }
 
-function saveNotes(notes) {
+function saveLocalNotes(notes) {
   localStorage.setItem("fukuoka-trip-notes", JSON.stringify(notes));
 }
 
-function renderNotes() {
-  const notes = getNotes();
+async function fetchNotes() {
+  if (!hasCloudNotes) return localNotes();
+
+  const response = await fetch(
+    notesEndpoint("?select=id,title,body,created_at&order=created_at.desc"),
+    { headers: noteHeaders() },
+  );
+
+  if (!response.ok) throw new Error("notes_fetch_failed");
+  return response.json();
+}
+
+async function createNote(note) {
+  if (!hasCloudNotes) {
+    const notes = localNotes();
+    notes.unshift({ ...note, id: crypto.randomUUID?.() || String(Date.now()) });
+    saveLocalNotes(notes);
+    return;
+  }
+
+  const response = await fetch(notesEndpoint(""), {
+    method: "POST",
+    headers: { ...noteHeaders(), Prefer: "return=minimal" },
+    body: JSON.stringify(note),
+  });
+
+  if (!response.ok) throw new Error("notes_create_failed");
+}
+
+async function deleteNote(noteId) {
+  if (!hasCloudNotes) {
+    saveLocalNotes(localNotes().filter((note) => String(note.id) !== String(noteId)));
+    return;
+  }
+
+  const response = await fetch(notesEndpoint(`?id=eq.${encodeURIComponent(noteId)}`), {
+    method: "DELETE",
+    headers: noteHeaders(),
+  });
+
+  if (!response.ok) throw new Error("notes_delete_failed");
+}
+
+function renderNotesList(notes) {
   noteList.innerHTML = notes.length
     ? notes
         .map(
-          (note, index) => `
+          (note) => `
             <article class="note-card">
               <h4>${note.title}</h4>
               <p>${note.body}</p>
-              <button data-delete-note="${index}">刪除</button>
+              <button data-delete-note="${note.id}">刪除</button>
             </article>
           `,
         )
@@ -1343,28 +1402,42 @@ function renderNotes() {
     : `<article class="note-card"><h4>尚無備註</h4><p>可以先新增餐廳訂位、分工、購物清單或交通提醒。</p></article>`;
 
   noteList.querySelectorAll("[data-delete-note]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const nextNotes = getNotes().filter(
-        (_, index) => index !== Number(button.dataset.deleteNote),
-      );
-      saveNotes(nextNotes);
-      renderNotes();
+    button.addEventListener("click", async () => {
+      await deleteNote(button.dataset.deleteNote);
+      await renderNotes();
     });
   });
 }
 
-noteForm.addEventListener("submit", (event) => {
+async function renderNotes() {
+  notesStatus.textContent = hasCloudNotes
+    ? "雲端同步模式：所有旅伴在不同裝置都會看到同一份備註。"
+    : "本機模式：目前只會存在這台裝置。若要跨裝置同步，請設定 Supabase。";
+
+  try {
+    const notes = await fetchNotes();
+    renderNotesList(notes);
+  } catch {
+    notesStatus.textContent = "雲端備註暫時無法載入，請檢查 Supabase 設定或網路連線。";
+    renderNotesList(localNotes());
+  }
+}
+
+noteForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(noteForm);
-  const notes = getNotes();
-  notes.unshift({
-    title: String(formData.get("title")).trim(),
-    body: String(formData.get("body")).trim(),
-  });
-  saveNotes(notes);
-  noteForm.reset();
-  renderNotes();
-  showToast("備註已新增");
+
+  try {
+    await createNote({
+      title: String(formData.get("title")).trim(),
+      body: String(formData.get("body")).trim(),
+    });
+    noteForm.reset();
+    await renderNotes();
+    showToast(hasCloudNotes ? "備註已同步" : "備註已新增到本機");
+  } catch {
+    showToast("備註新增失敗，請稍後再試");
+  }
 });
 
 renderDateSwitcher();
