@@ -1,68 +1,628 @@
-# 跨裝置備註同步設定
+:root {
+  color-scheme: light;
+  --ink: #1f2a2e;
+  --muted: #65757b;
+  --line: #dbe5e3;
+  --paper: #fbfaf6;
+  --panel: #ffffff;
+  --moss: #315c4d;
+  --moss-2: #477767;
+  --coral: #d86f55;
+  --gold: #d7a441;
+  --sky: #dcecf3;
+  --shadow: 0 18px 45px rgba(31, 42, 46, 0.12);
+}
 
-目前 app 已支援 Supabase 雲端備註。設定完成後，iPhone、Android、平板看到的備註會是同一份。
+* {
+  box-sizing: border-box;
+}
 
-## 1. 建立 Supabase 專案
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family:
+    "Inter", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial,
+    sans-serif;
+}
 
-到 https://supabase.com/ 建立新專案。
+button,
+input,
+textarea {
+  font: inherit;
+}
 
-## 2. 建立資料表
+a {
+  color: inherit;
+}
 
-在 Supabase SQL Editor 執行：
+button {
+  cursor: pointer;
+}
 
-```sql
-create table public.trip_notes (
-  id uuid primary key default gen_random_uuid(),
-  title text not null,
-  body text not null,
-  created_at timestamptz not null default now()
-);
+.app-shell {
+  display: grid;
+  grid-template-columns: 292px minmax(0, 1fr);
+  min-height: 100vh;
+}
 
-alter table public.trip_notes enable row level security;
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  height: 100vh;
+  padding: 28px 22px;
+  background: #173d36;
+  color: #f7fbf8;
+}
 
-create policy "Trip notes are readable by trip members"
-on public.trip_notes
-for select
-to anon
-using (true);
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 
-create policy "Trip members can add notes"
-on public.trip_notes
-for insert
-to anon
-with check (true);
+.brand-mark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--gold);
+  color: #173d36;
+  font-size: 24px;
+  font-weight: 800;
+}
 
-create policy "Trip members can delete notes"
-on public.trip_notes
-for delete
-to anon
-using (true);
-```
+.eyebrow,
+.card-kicker {
+  margin: 0;
+  color: currentColor;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
 
-這是內部旅伴用的簡化設定。只要知道 app 網址的人都可以讀取、新增、刪除備註。
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
 
-## 3. 填入 config.js
+h1 {
+  margin-bottom: 0;
+  font-size: 24px;
+  line-height: 1.1;
+}
 
-在 `config.js` 填入：
+.nav-tabs {
+  display: grid;
+  gap: 8px;
+}
 
-```js
-window.TRIP_APP_CONFIG = {
-  supabaseUrl: "https://YOUR_PROJECT_ID.supabase.co",
-  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY",
-  notesTable: "trip_notes",
-};
-```
+.nav-tab {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  text-align: left;
+  padding: 0 14px;
+}
 
-Supabase 的 Project URL 和 anon public key 可以在：
+.nav-tab.is-active {
+  background: #f7fbf8;
+  color: #173d36;
+  font-weight: 800;
+}
 
-`Project Settings` > `API`
+.trip-meta {
+  display: grid;
+  gap: 14px;
+  margin-top: auto;
+}
 
-找到。
+.trip-meta div {
+  display: grid;
+  gap: 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
 
-## 4. 重新上傳 GitHub Pages
+.trip-meta span {
+  color: rgba(247, 251, 248, 0.68);
+  font-size: 13px;
+}
 
-把更新後的所有檔案重新上傳到 GitHub，開啟：
+main {
+  min-width: 0;
+  padding: 28px;
+}
 
-`https://ethan650415.github.io/Fukuoka/?v=11`
+.hero {
+  position: relative;
+  display: grid;
+  min-height: 430px;
+  align-content: end;
+  overflow: hidden;
+  border-radius: 0;
+  padding: 42px;
+  color: #ffffff;
+  background:
+    linear-gradient(90deg, rgba(18, 45, 41, 0.92), rgba(18, 45, 41, 0.42)),
+    url("https://images.unsplash.com/photo-1542640244-7e672d6cef4e?auto=format&fit=crop&w=1800&q=80")
+      center / cover;
+}
 
-如果設定成功，備註頁會顯示「雲端同步模式」。
+.hero-copy {
+  max-width: 780px;
+}
+
+.hero h2 {
+  margin: 10px 0 16px;
+  max-width: 760px;
+  font-size: clamp(36px, 5vw, 70px);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.hero p {
+  max-width: 680px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.weather-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 28px;
+  max-width: 840px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.weather-strip div {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 16px;
+  background: rgba(23, 61, 54, 0.72);
+}
+
+.weather-strip span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+}
+
+.weather-strip strong {
+  overflow-wrap: anywhere;
+}
+
+.view {
+  display: none;
+  padding: 34px 0 12px;
+}
+
+.view.is-visible {
+  display: block;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.section-heading h3 {
+  margin-bottom: 0;
+  font-size: 28px;
+}
+
+.section-heading p {
+  max-width: 520px;
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.overview-grid,
+.places-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.info-card,
+.place-card,
+.note-card,
+.day-panel,
+.note-form {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.info-card,
+.place-card,
+.note-card {
+  padding: 18px;
+}
+
+.info-card h4,
+.place-card h4,
+.note-card h4 {
+  margin: 8px 0;
+  font-size: 19px;
+}
+
+.info-card p,
+.place-card p,
+.note-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.ghost-button,
+.filter-pill,
+.date-button,
+.note-form button {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 0 14px;
+}
+
+.ghost-button:hover,
+.filter-pill:hover,
+.date-button:hover {
+  border-color: var(--moss-2);
+}
+
+.date-switcher,
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.date-button.is-active,
+.filter-pill.is-active,
+.note-form button {
+  border-color: var(--moss);
+  background: var(--moss);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.day-panel {
+  padding: 20px;
+}
+
+.day-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 18px 0 8px;
+}
+
+.overview-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.food-photo-strip {
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  margin: 0 0 18px;
+}
+
+.photo-card {
+  position: relative;
+  min-width: 0;
+  min-height: 150px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e7efed;
+}
+
+.photo-card img,
+.place-image {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.photo-card img {
+  height: 190px;
+}
+
+.photo-card figcaption {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  max-width: calc(100% - 20px);
+  border-radius: 8px;
+  background: rgba(23, 61, 54, 0.82);
+  color: #fff;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.place-image {
+  height: 176px;
+  margin: -18px -18px 14px;
+  width: calc(100% + 36px);
+  border-radius: 8px 8px 0 0;
+  background: #e7efed;
+}
+
+.day-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.day-title h4 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.timeline {
+  display: grid;
+  gap: 14px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.timeline-time {
+  color: var(--coral);
+  font-weight: 900;
+}
+
+.timeline-item h5 {
+  margin: 0 0 5px;
+  font-size: 17px;
+}
+
+.timeline-item p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.link-row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--moss);
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.link-row a::after {
+  content: "↗";
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+.link-row a:hover {
+  border-color: var(--moss-2);
+  background: #f4faf7;
+}
+
+.tag {
+  border-radius: 999px;
+  background: var(--sky);
+  color: #24434d;
+  padding: 5px 9px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.notes-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.note-form {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 18px;
+}
+
+.note-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.note-form input,
+.note-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  color: var(--ink);
+}
+
+.note-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.note-list {
+  display: grid;
+  gap: 12px;
+}
+
+.note-card {
+  box-shadow: none;
+}
+
+.note-card button {
+  border: 0;
+  background: transparent;
+  color: var(--coral);
+  font-weight: 800;
+  padding: 0;
+}
+
+.toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  transform: translateY(16px);
+  border-radius: 8px;
+  background: #173d36;
+  color: #ffffff;
+  padding: 12px 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.toast.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+
+  .nav-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  main {
+    padding: 18px;
+  }
+
+  .hero {
+    min-height: 520px;
+    padding: 28px;
+  }
+
+  .overview-grid,
+  .places-grid,
+  .notes-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .day-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    padding: 18px;
+  }
+
+  .nav-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 560px;
+    padding: 22px;
+  }
+
+  .hero h2 {
+    font-size: 38px;
+  }
+
+  .weather-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .day-photo-grid,
+  .overview-photo-grid {
+    display: flex;
+    gap: 10px;
+    margin-right: -18px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x proximity;
+  }
+
+  .photo-card {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  .photo-card img {
+    height: 178px;
+  }
+
+  .section-heading {
+    display: block;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

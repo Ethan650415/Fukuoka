@@ -1,14 +1,32 @@
-# 福岡旅伴手冊
-
-6/25-6/30 福岡內部旅伴使用的 PWA app。
-
-## GitHub Pages 部署
-
-1. 在 GitHub 建立一個 repository，例如 `fukuoka-trip-app`。
-2. 上傳本資料夾內所有檔案到 repository 根目錄。
-3. 到 repository 的 `Settings` > `Pages`。
-4. `Build and deployment` 選擇 `Deploy from a branch`。
-5. Branch 選 `main`，folder 選 `/root`。
-6. 儲存後等待 GitHub Pages 產生網址。
-
-產生的 HTTPS 網址可用於 iOS Safari「加入主畫面」與 Android Chrome 安裝 PWA。
+{
+  "name": "福岡旅伴手冊",
+  "short_name": "福岡旅伴",
+  "description": "6/25-6/30 福岡內部旅伴行程、景點、備註與查找連結。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfaf6",
+  "theme_color": "#173d36",
+  "lang": "zh-Hant",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

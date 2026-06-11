@@ -1,5 +1,5 @@
 window.TRIP_APP_CONFIG = {
-  supabaseUrl: "https://qezvrnkvsyevtfzgyugh.supabase.co",
-  supabaseAnonKey: "sb_publishable_wxJm3GDpctPrASUXUwkfJQ_4ZZ_0P-_",
+  supabaseUrl: "https://YOUR_PROJECT_ID.supabase.co",
+  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY",
   notesTable: "trip_notes",
 };
