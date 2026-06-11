@@ -1,10 +1,10 @@
-const CACHE_NAME = "fukuoka-trip-v14";
+const CACHE_NAME = "fukuoka-trip-v15";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js?v=13",
-  "./config.js?v=13",
+  "./app.js?v=15",
+  "./config.js?v=15",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
@@ -31,6 +31,15 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
+  const requestUrl = new URL(event.request.url);
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+
+  // Never cache API / external requests. This keeps Supabase notes fresh after add/delete.
+  if (!isSameOrigin) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   if (event.request.mode === "navigate") {
     event.respondWith(

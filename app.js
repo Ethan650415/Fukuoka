@@ -1352,7 +1352,14 @@ async function fetchNotes() {
 
   const response = await fetch(
     notesEndpoint("?select=id,title,body,created_at&order=created_at.desc"),
-    { headers: noteHeaders() },
+    {
+      headers: {
+        ...noteHeaders(),
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+      cache: "no-store",
+    },
   );
 
   if (!response.ok) throw new Error("notes_fetch_failed");
@@ -1384,7 +1391,13 @@ async function deleteNote(noteId) {
 
   const response = await fetch(notesEndpoint(`?id=eq.${encodeURIComponent(noteId)}`), {
     method: "DELETE",
-    headers: noteHeaders(),
+    headers: {
+      ...noteHeaders(),
+      Prefer: "return=minimal",
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
+    },
+    cache: "no-store",
   });
 
   if (!response.ok) throw new Error("notes_delete_failed");
