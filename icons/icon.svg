@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="福岡旅伴 app icon">
+  <rect width="512" height="512" rx="96" fill="#173d36"/>
+  <circle cx="382" cy="134" r="54" fill="#d7a441"/>
+  <path d="M78 330c66-82 119-123 158-123 30 0 54 22 79 50 26 30 55 68 119 68v78H78z" fill="#f7fbf8"/>
+  <path d="M78 365c65-61 116-91 153-91 29 0 53 17 78 40 27 24 59 54 125 54v61H78z" fill="#d86f55"/>
+  <text x="256" y="214" text-anchor="middle" font-family="Arial, sans-serif" font-size="136" font-weight="800" fill="#f7fbf8">福</text>
+</svg>
