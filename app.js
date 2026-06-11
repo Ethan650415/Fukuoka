@@ -1078,6 +1078,7 @@ const toast = document.querySelector("#toast");
 const noteForm = document.querySelector("#noteForm");
 const noteList = document.querySelector("#noteList");
 const notesStatus = document.querySelector("#notesStatus");
+const refreshNotesButton = document.querySelector("#refreshNotesButton");
 
 let selectedDay = 0;
 let selectedType = "全部";
@@ -1397,19 +1398,12 @@ function renderNotesList(notes) {
             <article class="note-card">
               <h4>${note.title}</h4>
               <p>${note.body}</p>
-              <button data-delete-note="${note.id}">刪除</button>
+              <button type="button" data-delete-note="${note.id}">刪除</button>
             </article>
           `,
         )
         .join("")
     : `<article class="note-card"><h4>尚無備註</h4><p>可以先新增餐廳訂位、分工、購物清單或交通提醒。</p></article>`;
-
-  noteList.querySelectorAll("[data-delete-note]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      await deleteNote(button.dataset.deleteNote);
-      await renderNotes();
-    });
-  });
 }
 
 async function renderNotes() {
@@ -1425,6 +1419,33 @@ async function renderNotes() {
     renderNotesList(localNotes());
   }
 }
+
+noteList.addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-delete-note]");
+  if (!button) return;
+
+  const noteId = button.dataset.deleteNote;
+  button.disabled = true;
+  button.textContent = "刪除中...";
+
+  try {
+    await deleteNote(noteId);
+    await renderNotes();
+    showToast("備註已刪除");
+  } catch {
+    button.disabled = false;
+    button.textContent = "刪除";
+    showToast("刪除失敗，請重新整理後再試");
+  }
+});
+
+refreshNotesButton.addEventListener("click", async () => {
+  refreshNotesButton.disabled = true;
+  refreshNotesButton.textContent = "整理中...";
+  await renderNotes();
+  refreshNotesButton.disabled = false;
+  refreshNotesButton.textContent = "重新整理備註";
+});
 
 noteForm.addEventListener("submit", async (event) => {
   event.preventDefault();
