@@ -1180,46 +1180,6 @@ itinerary.splice(
   {
     date: "6/27",
     weekday: "Day 3 · 星期六",
-    title: "糸島自駕一日遊",
-    theme: "已預訂租車，分店與保險待確認",
-    photos: [
-      { ...images.itoshima, caption: "櫻井二見浦" },
-      { ...images.cafeCounter, caption: "海景咖啡" },
-      { ...images.hakata, caption: "博多還車" },
-    ],
-    items: [
-      {
-        time: "08:50",
-        title: "博多站筑紫口附近租車報到",
-        body: "確認取車分店、免責補償、NOC、ETC、油種與還車規則。出發前拍攝車況與油表。",
-        links: [
-          { label: "筑紫口租車", url: mapLink("博多駅 筑紫口 レンタカー") },
-          { label: "糸島自駕路線", url: searchLink("博多 糸島 自駕 一日遊 路線") },
-        ],
-      },
-      {
-        time: "09:00–18:00",
-        title: "櫻井二見浦 → 海景午餐 → 芥屋大門／龍貓森林 → 咖啡",
-        body: "以順時針或逆時針單一路線行駛，避免來回折返。週六下午可能塞車，建議 16:30 左右離開糸島並預留加油、還車時間。",
-        links: [
-          { label: "櫻井二見浦", url: mapLink("櫻井二見浦 夫婦岩") },
-          { label: "芥屋大門", url: mapLink("芥屋の大門") },
-          { label: "龍貓森林", url: mapLink("トトロの森 糸島") },
-        ],
-      },
-      {
-        time: "19:00 後",
-        title: "還車後博多晚餐",
-        body: "完成加油與還車後，晚餐安排在博多站或住宿方向，不再跨區移動。",
-        links: [
-          { label: "博多晚餐", url: mapLink("博多駅 晚餐") },
-        ],
-      },
-    ],
-  },
-  {
-    date: "6/28",
-    weekday: "Day 4 · 星期日",
     title: "太宰府＋柳川完整一日",
     theme: "建議使用西鐵太宰府・柳川觀光套票",
     photos: [
@@ -1262,6 +1222,46 @@ itinerary.splice(
         body: "從沖端搭接駁回柳川站，再搭西鐵回市區。當天移動量較大，晚餐以天神附近輕鬆安排為主。",
         links: [
           { label: "天神屋台", url: mapLink("天神 屋台 福岡") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/28",
+    weekday: "Day 4 · 星期日",
+    title: "糸島自駕一日遊",
+    theme: "已預訂租車，分店與保險待確認",
+    photos: [
+      { ...images.itoshima, caption: "櫻井二見浦" },
+      { ...images.cafeCounter, caption: "海景咖啡" },
+      { ...images.hakata, caption: "博多還車" },
+    ],
+    items: [
+      {
+        time: "08:50",
+        title: "博多站筑紫口附近租車報到",
+        body: "確認取車分店、免責補償、NOC、ETC、油種與還車規則。出發前拍攝車況與油表。",
+        links: [
+          { label: "筑紫口租車", url: mapLink("博多駅 筑紫口 レンタカー") },
+          { label: "糸島自駕路線", url: searchLink("博多 糸島 自駕 一日遊 路線") },
+        ],
+      },
+      {
+        time: "09:00–18:00",
+        title: "櫻井二見浦 → 海景午餐 → 芥屋大門／龍貓森林 → 咖啡",
+        body: "以順時針或逆時針單一路線行駛，避免來回折返。週日下午可能塞車，建議 16:30 左右離開糸島並預留加油、還車時間。",
+        links: [
+          { label: "櫻井二見浦", url: mapLink("櫻井二見浦 夫婦岩") },
+          { label: "芥屋大門", url: mapLink("芥屋の大門") },
+          { label: "龍貓森林", url: mapLink("トトロの森 糸島") },
+        ],
+      },
+      {
+        time: "19:00 後",
+        title: "還車後博多晚餐",
+        body: "完成加油與還車後，晚餐安排在博多站或住宿方向，不再跨區移動。",
+        links: [
+          { label: "博多晚餐", url: mapLink("博多駅 晚餐") },
         ],
       },
     ],
