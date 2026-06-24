@@ -1,10 +1,10 @@
-const CACHE_NAME = "fukuoka-trip-v15";
+const CACHE_NAME = "fukuoka-trip-v17";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./app.js?v=15",
-  "./config.js?v=15",
+  "./app.js?v=17",
+  "./config.js?v=17",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

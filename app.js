@@ -1065,12 +1065,704 @@ const restaurants = [
   },
 ];
 
+
+// -----------------------------------------------------------------------------
+// 2026/06/24 itinerary refresh + Google Maps shared-list sync
+// Source of truth: 福岡自由行_2026-06-25至06-30_行程規劃_0624.xlsx
+// -----------------------------------------------------------------------------
+
+itinerary.splice(
+  0,
+  itinerary.length,
+  {
+    date: "6/25",
+    weekday: "Day 1 · 星期四",
+    title: "抵達福岡・入住美野島",
+    theme: "14:25 台灣起飛，第一晚不跨區",
+    photos: [
+      { ...images.airport, caption: "福岡機場" },
+      { ...images.hakata, caption: "博多／美野島" },
+    ],
+    items: [
+      {
+        time: "09:00–11:00",
+        title: "前往台灣出發機場",
+        body: "從住處前往桃園機場；實際出發機場與接送方式依航班資料補齊。",
+        links: [
+          { label: "桃園機場", url: mapLink("桃園國際機場") },
+        ],
+      },
+      {
+        time: "11:30–13:30",
+        title: "航空公司報到、托運、出境與午餐",
+        body: "建議最晚在起飛前 2.5–3 小時抵達機場，完成報到、行李托運與出境。",
+        links: [
+          { label: "航班查詢", url: searchLink("桃園機場 福岡 6月25日 14:25 航班") },
+        ],
+      },
+      {
+        time: "14:25",
+        title: "台灣起飛 → 福岡",
+        body: "下午 2:25 起飛。抵達時間與航班編號仍以電子機票為準。",
+        links: [
+          { label: "福岡機場", url: mapLink("福岡機場 國際線") },
+        ],
+      },
+      {
+        time: "抵達後",
+        title: "入境、領行李、前往美野島住宿",
+        body: "攜帶行李時建議由福岡機場搭計程車，或搭機場巴士／地鐵後轉乘，抵達美野島辦理入住。",
+        links: [
+          { label: "住宿地圖", url: mapLink("1-4-32 Minoshima, Hakata Ward, Fukuoka") },
+          { label: "機場到住宿", url: searchLink("福岡機場 到 美野島 1-4-32 交通") },
+        ],
+      },
+      {
+        time: "20:00 後",
+        title: "住宿附近晚餐與超商補給",
+        body: "第一晚以美野島附近為主，不再跨區；買好飲水、早餐與旅途中需要的用品後休息。",
+        links: [
+          { label: "美野島周邊餐廳", url: mapLink("美野島 福岡 餐廳") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/26",
+    weekday: "Day 2 · 星期五",
+    title: "南藏院繡球花祭＋博多購物",
+    theme: "上午篠栗，下午回博多",
+    photos: [
+      { ...images.ohori, caption: "南藏院／篠栗" },
+      { ...images.hakata, caption: "JR 博多城" },
+      { ...images.canal, caption: "Canal City 備案" },
+    ],
+    items: [
+      {
+        time: "08:20–12:30",
+        title: "南藏院臥佛與 2026 繡球花祭",
+        body: "從博多站搭 JR 福北豐線至城戶南藏院前站，步行約 3 分鐘。繡球花祭為 6/20–6/28、09:00–17:00，16:30 最後入場；服裝需遮肩與膝。",
+        links: [
+          { label: "南藏院", url: mapLink("南蔵院 福岡 篠栗") },
+          { label: "祭典資訊", url: searchLink("南藏院 2026 繡球花祭 6月") },
+          { label: "JR 路線", url: searchLink("博多站 城戶南藏院前站 JR") },
+        ],
+      },
+      {
+        time: "12:30–18:00",
+        title: "返回博多・午餐・JR 博多城／AMU Plaza",
+        body: "回到博多後安排午餐、JR 博多城、AMU Plaza 與伴手禮採買。收藏清單中的博多站、祇園周邊店家可優先放在這一段。",
+        links: [
+          { label: "JR 博多城", url: mapLink("JR博多シティ") },
+          { label: "AMU Plaza", url: mapLink("アミュプラザ博多") },
+        ],
+      },
+      {
+        time: "18:00–20:00",
+        title: "博多晚餐",
+        body: "從 Google Maps 的 46 個收藏地點中挑選博多區店家；熱門餐廳建議先確認訂位。",
+        links: [
+          { label: "開啟收藏清單", url: "https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu" },
+        ],
+      },
+      {
+        time: "20:00 後",
+        title: "Canal City、櫛田神社周邊或中洲散步",
+        body: "依體力與天氣決定。雨天可只逛 Canal City；不想走太多則直接回美野島。",
+        links: [
+          { label: "Canal City", url: mapLink("Canal City Hakata") },
+          { label: "櫛田神社", url: mapLink("櫛田神社 福岡") },
+          { label: "中洲", url: mapLink("中洲 福岡") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/27",
+    weekday: "Day 3 · 星期六",
+    title: "糸島自駕一日遊",
+    theme: "已預訂租車，分店與保險待確認",
+    photos: [
+      { ...images.itoshima, caption: "櫻井二見浦" },
+      { ...images.cafeCounter, caption: "海景咖啡" },
+      { ...images.hakata, caption: "博多還車" },
+    ],
+    items: [
+      {
+        time: "08:50",
+        title: "博多站筑紫口附近租車報到",
+        body: "確認取車分店、免責補償、NOC、ETC、油種與還車規則。出發前拍攝車況與油表。",
+        links: [
+          { label: "筑紫口租車", url: mapLink("博多駅 筑紫口 レンタカー") },
+          { label: "糸島自駕路線", url: searchLink("博多 糸島 自駕 一日遊 路線") },
+        ],
+      },
+      {
+        time: "09:00–18:00",
+        title: "櫻井二見浦 → 海景午餐 → 芥屋大門／龍貓森林 → 咖啡",
+        body: "以順時針或逆時針單一路線行駛，避免來回折返。週六下午可能塞車，建議 16:30 左右離開糸島並預留加油、還車時間。",
+        links: [
+          { label: "櫻井二見浦", url: mapLink("櫻井二見浦 夫婦岩") },
+          { label: "芥屋大門", url: mapLink("芥屋の大門") },
+          { label: "龍貓森林", url: mapLink("トトロの森 糸島") },
+        ],
+      },
+      {
+        time: "19:00 後",
+        title: "還車後博多晚餐",
+        body: "完成加油與還車後，晚餐安排在博多站或住宿方向，不再跨區移動。",
+        links: [
+          { label: "博多晚餐", url: mapLink("博多駅 晚餐") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/28",
+    weekday: "Day 4 · 星期日",
+    title: "太宰府＋柳川完整一日",
+    theme: "建議使用西鐵太宰府・柳川觀光套票",
+    photos: [
+      { ...images.dazaifu, caption: "太宰府天滿宮" },
+      { ...images.yanagawa, caption: "柳川川下遊船" },
+      { ...images.seafood, caption: "柳川鰻魚蒸籠飯" },
+    ],
+    items: [
+      {
+        time: "07:45–10:30",
+        title: "西鐵前往太宰府・參道・天滿宮・梅枝餅",
+        body: "由美野島前往福岡（天神）站或藥院站搭西鐵。若使用觀光套票，可從天神或藥院啟用。",
+        links: [
+          { label: "太宰府天滿宮", url: mapLink("太宰府天満宮") },
+          { label: "西鐵套票", url: searchLink("西鐵 太宰府 柳川 觀光套票") },
+        ],
+      },
+      {
+        time: "10:30–13:10",
+        title: "轉往柳川・報到・川下遊船",
+        body: "由太宰府轉乘西鐵前往柳川。船程約 60–70 分鐘，週末可能需要候船；遊船為單程。",
+        links: [
+          { label: "柳川川下遊船", url: mapLink("柳川 川下り") },
+          { label: "太宰府到柳川", url: searchLink("太宰府 柳川 西鐵 交通") },
+        ],
+      },
+      {
+        time: "13:20–16:00",
+        title: "鰻魚蒸籠飯・御花・沖端散步",
+        body: "鰻魚飯熱門店建議先訂位。用餐後可安排御花、沖端與河岸街區散步。",
+        links: [
+          { label: "柳川鰻魚飯", url: mapLink("柳川 うなぎ せいろ蒸し") },
+          { label: "柳川藩主立花邸 御花", url: mapLink("柳川藩主立花邸 御花") },
+          { label: "沖端", url: mapLink("沖端 柳川") },
+        ],
+      },
+      {
+        time: "16:00–21:00",
+        title: "回天神／藥院・輕鬆晚餐或屋台",
+        body: "從沖端搭接駁回柳川站，再搭西鐵回市區。當天移動量較大，晚餐以天神附近輕鬆安排為主。",
+        links: [
+          { label: "天神屋台", url: mapLink("天神 屋台 福岡") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/29",
+    weekday: "Day 5 · 星期一",
+    title: "天神・大名・今泉・藥院逛街",
+    theme: "商圈、選物店、咖啡與最後一晚主餐",
+    photos: [
+      { ...images.hakata, caption: "天神商圈" },
+      { ...images.cafeCounter, caption: "藥院咖啡" },
+      { ...images.yatai, caption: "最後一晚" },
+    ],
+    items: [
+      {
+        time: "09:30–12:30",
+        title: "天神地下街、Solaria 與百貨",
+        body: "由美野島搭市區公車前往天神，或步行至博多站轉地鐵。先逛地下街與大型商場，避免午後折返。",
+        links: [
+          { label: "天神地下街", url: mapLink("天神地下街") },
+          { label: "Solaria Plaza", url: mapLink("ソラリアプラザ") },
+        ],
+      },
+      {
+        time: "12:30–14:00",
+        title: "天神午餐",
+        body: "從 46 個 Google Maps 收藏地點中挑選天神附近店家，依星期一營業日與訂位狀況調整。",
+        links: [
+          { label: "開啟收藏清單", url: "https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu" },
+        ],
+      },
+      {
+        time: "14:00–18:30",
+        title: "大名／今泉服飾與選物店 → 藥院咖啡與生活雜貨",
+        body: "由天神往南一路步行，依序逛大名、今泉、藥院，避免來回折返。獨立店家星期一可能休息，出發前再確認。",
+        links: [
+          { label: "大名", url: mapLink("大名 福岡") },
+          { label: "今泉", url: mapLink("今泉 福岡") },
+          { label: "藥院", url: mapLink("薬院 福岡") },
+        ],
+      },
+      {
+        time: "18:30 後",
+        title: "最後一晚主餐・視體力前往中洲河畔",
+        body: "晚餐後回飯店整理行李與退稅商品；仍有體力再去中洲河畔短暫散步。",
+        links: [
+          { label: "中洲河畔", url: mapLink("中洲 屋台横丁") },
+        ],
+      },
+    ],
+  },
+  {
+    date: "6/30",
+    weekday: "Day 6 · 星期二",
+    title: "博多最後採買・17:55 返台",
+    theme: "14:20 左右離開博多",
+    photos: [
+      { ...images.hakata, caption: "博多站最後採買" },
+      { ...images.souvenir, caption: "伴手禮" },
+      { ...images.airport, caption: "福岡機場" },
+    ],
+    items: [
+      {
+        time: "09:00–09:30",
+        title: "退房並寄放行李",
+        body: "先確認美野島住宿可寄放行李，再輕裝前往博多站。",
+        links: [
+          { label: "住宿地圖", url: mapLink("1-4-32 Minoshima, Hakata Ward, Fukuoka") },
+        ],
+      },
+      {
+        time: "09:30–13:30",
+        title: "博多站最後購物、伴手禮與午餐",
+        body: "最後一天不安排近郊。集中完成伴手禮、藥妝與午餐，並預留回住宿取行李的時間。",
+        links: [
+          { label: "博多站伴手禮", url: searchLink("博多站 伴手禮 推薦") },
+          { label: "博多站", url: mapLink("博多駅") },
+        ],
+      },
+      {
+        time: "13:30–15:30",
+        title: "返回美野島取行李 → 前往福岡機場",
+        body: "建議 14:20 左右離開博多區。行李多可由住宿直接搭計程車前往機場；也可前往博多站筑紫口搭國際線巴士。",
+        links: [
+          { label: "筑紫口機場巴士", url: searchLink("博多站 筑紫口 福岡機場 國際線 巴士") },
+          { label: "福岡機場國際線", url: mapLink("福岡空港 国際線ターミナル") },
+        ],
+      },
+      {
+        time: "17:55",
+        title: "福岡起飛回台灣",
+        body: "完成報到、托運、安檢與出境後登機；機場補買應放在完成必要手續之後。",
+        links: [
+          { label: "福岡機場航班", url: searchLink("福岡機場 國際線 航班 出發") },
+        ],
+      },
+    ],
+  },
+);
+
+const GOOGLE_MAPS_LIST_URL =
+  "https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu&g_ep=EgoyMDI2MDYyMi4wIKXMDSoASAFQAw%3D%3D";
+const EXPECTED_GOOGLE_PLACE_COUNT = 46;
+const GOOGLE_PLACES_CACHE_KEY = "fukuoka-google-maps-list-v2";
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function safeExternalUrl(value) {
+  try {
+    const url = new URL(String(value), window.location.href);
+    return ["https:", "http:"].includes(url.protocol) ? url.href : "#";
+  } catch {
+    return "#";
+  }
+}
+
+function readPlacesCache() {
+  try {
+    const payload = JSON.parse(localStorage.getItem(GOOGLE_PLACES_CACHE_KEY) || "null");
+    return payload && Array.isArray(payload.places) ? payload : null;
+  } catch {
+    return null;
+  }
+}
+
+function writePlacesCache(payload) {
+  try {
+    localStorage.setItem(GOOGLE_PLACES_CACHE_KEY, JSON.stringify(payload));
+  } catch {
+    // The live list still works when local storage is unavailable.
+  }
+}
+
+function decodeHtmlEntities(value) {
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = String(value ?? "");
+  return textarea.value;
+}
+
+function unwrapReaderPayload(raw) {
+  const text = String(raw ?? "").trim();
+  if (!text) return "";
+
+  if (text.startsWith("{") || text.startsWith("[")) {
+    try {
+      const parsed = JSON.parse(text);
+      const content =
+        parsed?.data?.content || parsed?.content || parsed?.data || parsed?.result || null;
+      if (typeof content === "string") return content;
+    } catch {
+      // It may already be the Google JSON payload.
+    }
+  }
+
+  return text;
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, { ...options, signal: controller.signal });
+    if (!response.ok) throw new Error(`request_failed_${response.status}`);
+    return response.text();
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+async function readViaJina(targetUrl, responseFormat = "html") {
+  const postOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Respond-With": responseFormat,
+      "X-Engine": "browser",
+      "X-No-Cache": "true",
+    },
+    body: JSON.stringify({ url: targetUrl }),
+    cache: "no-store",
+  };
+
+  try {
+    return unwrapReaderPayload(await fetchWithTimeout("https://r.jina.ai/", postOptions));
+  } catch {
+    const readerUrl = new URL(`https://r.jina.ai/${targetUrl}`);
+    readerUrl.searchParams.set("respondWith", responseFormat);
+    readerUrl.searchParams.set("engine", "browser");
+    readerUrl.searchParams.set("noCache", "true");
+    return unwrapReaderPayload(
+      await fetchWithTimeout(readerUrl.href, { cache: "no-store" }),
+    );
+  }
+}
+
+async function readViaAllOrigins(targetUrl) {
+  const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}&t=${Date.now()}`;
+  return fetchWithTimeout(proxy, { cache: "no-store" });
+}
+
+async function fetchPublicDocument(targetUrl, responseFormat = "html") {
+  const attempts = [
+    () => readViaJina(targetUrl, responseFormat),
+    () => readViaAllOrigins(targetUrl),
+  ];
+  let lastError;
+
+  for (const attempt of attempts) {
+    try {
+      const result = await attempt();
+      if (result && result.length > 20) return result;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("public_document_fetch_failed");
+}
+
+function normalizedGoogleHtml(rawHtml) {
+  const initial = unwrapReaderPayload(rawHtml);
+  const variants = [
+    initial,
+    initial
+      .replaceAll("\\u003d", "=")
+      .replaceAll("\\u0026", "&")
+      .replaceAll("\\u0025", "%")
+      .replaceAll("\\/", "/"),
+  ];
+
+  try {
+    variants.push(decodeURIComponent(variants[1]));
+  } catch {
+    // Some percent signs do not form an encoded sequence.
+  }
+
+  return variants;
+}
+
+function extractEntityListEndpoint(rawHtml) {
+  for (const html of normalizedGoogleHtml(rawHtml)) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const element = [...doc.querySelectorAll("link[href], a[href]")].find((node) =>
+      node.getAttribute("href")?.includes("entitylist/getlist"),
+    );
+
+    let candidate = element?.getAttribute("href") || "";
+    if (!candidate) {
+      const match = html.match(
+        /(https?:\\?\/\\?\/[^\s"'<>]*entitylist\\?\/getlist[^\s"'<>]*)|((?:\/|\\u002F)maps(?:\/|\\u002F)rpc(?:\/|\\u002F)entitylist(?:\/|\\u002F)getlist[^\s"'<>]*)/i,
+      );
+      candidate = match?.[0] || "";
+    }
+
+    if (!candidate) continue;
+    candidate = decodeHtmlEntities(candidate)
+      .replaceAll("\\u003d", "=")
+      .replaceAll("\\u0026", "&")
+      .replaceAll("\\u002F", "/")
+      .replaceAll("\\/", "/");
+
+    try {
+      return new URL(candidate, "https://www.google.com").href;
+    } catch {
+      // Continue to the next HTML representation.
+    }
+  }
+
+  throw new Error("google_list_endpoint_not_found");
+}
+
+function parseGooglePayload(rawPayload) {
+  let text = unwrapReaderPayload(rawPayload)
+    .replace(/^\s*\)\]\}'\s*/, "")
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/```\s*$/, "")
+    .trim();
+
+  const starts = [text.indexOf("["), text.indexOf("{")].filter((index) => index >= 0);
+  if (!starts.length) throw new Error("google_list_json_not_found");
+  text = text.slice(Math.min(...starts));
+  return JSON.parse(text);
+}
+
+function findPlaceItemArray(payload) {
+  let best = { score: 0, items: [] };
+  const queue = [{ value: payload, depth: 0 }];
+  let visited = 0;
+
+  while (queue.length && visited < 40000) {
+    const { value, depth } = queue.shift();
+    visited += 1;
+    if (!Array.isArray(value)) continue;
+
+    const score = value.filter(
+      (item) =>
+        Array.isArray(item) &&
+        typeof item[2] === "string" &&
+        item[2].trim() &&
+        Array.isArray(item[1]),
+    ).length;
+    if (score > best.score) best = { score, items: value };
+
+    if (depth < 9) {
+      value.forEach((child) => {
+        if (Array.isArray(child)) queue.push({ value: child, depth: depth + 1 });
+      });
+    }
+  }
+
+  if (!best.score) throw new Error("google_list_items_not_found");
+  return best.items.filter(
+    (item) => Array.isArray(item) && typeof item[2] === "string" && Array.isArray(item[1]),
+  );
+}
+
+function classifyGooglePlace(name, address) {
+  const text = `${name} ${address}`;
+  if (/咖啡|珈琲|cafe|coffee|甜點|菓子|蛋糕|可頌|麵包|パン|冰淇淋|gelato|抹茶|茶房/i.test(text)) {
+    return "咖啡甜點";
+  }
+  if (/餐廳|食堂|拉麵|ラーメン|うどん|蕎麥|そば|壽司|寿司|燒肉|焼肉|居酒屋|屋台|酒場|鰻|うなぎ|牛腸鍋|もつ鍋|餃子|咖哩|カレー|burger|restaurant|dining|市場|market/i.test(text)) {
+    return "餐飲";
+  }
+  if (/百貨|商場|mall|plaza|地下街|選物|雜貨|書店|藥妝|outlet|店$|ショップ|shop|market/i.test(text)) {
+    return "購物";
+  }
+  if (/駅|車站|空港|機場|巴士|bus terminal|港|渡船|parking|駐車場/i.test(text)) {
+    return "交通";
+  }
+  if (/hotel|飯店|旅館|民宿|住宿|ホテル|inn|hostel/i.test(text)) {
+    return "住宿";
+  }
+  return "景點";
+}
+
+function inferGooglePlaceArea(name, address) {
+  const text = `${name} ${address}`;
+  if (/糸島|二見浦|芥屋|志摩|前原/i.test(text)) return "糸島";
+  if (/太宰府/i.test(text)) return "太宰府";
+  if (/柳川|沖端/i.test(text)) return "柳川";
+  if (/南蔵院|南藏院|篠栗|城戸南蔵院/i.test(text)) return "篠栗／南藏院";
+  if (/天神|大名|今泉|薬院|藥院|赤坂|警固/i.test(text)) return "天神／大名／藥院";
+  if (/中洲|祇園|川端|櫛田/i.test(text)) return "中洲／祇園";
+  if (/博多|美野島|住吉|東比恵|竹下/i.test(text)) return "博多";
+  if (/福岡空港|福岡機場/i.test(text)) return "福岡機場";
+  if (/福岡市中央区|福岡市中央區/i.test(text)) return "福岡市中央區";
+  if (/福岡市/i.test(text)) return "福岡市其他";
+  return address ? address.split(/[、,，]/)[0].trim() || "福岡近郊" : "福岡近郊";
+}
+
+function imageForGooglePlace(type, area) {
+  if (area === "糸島") return images.itoshima;
+  if (area === "太宰府") return images.dazaifu;
+  if (area === "柳川") return images.yanagawa;
+  if (area === "福岡機場") return images.airport;
+  if (area.includes("中洲")) return images.yatai;
+  if (area === "博多") return images.hakata;
+  if (type === "咖啡甜點") return images.cafeCounter;
+  if (type === "餐飲") return images.ramen;
+  if (type === "購物") return images.hakata;
+  return images.ohori;
+}
+
+function googleItemsToPlaces(payload) {
+  const rawItems = findPlaceItemArray(payload);
+  const seen = new Set();
+  const result = [];
+
+  rawItems.forEach((item) => {
+    const placeInfo = item[1] || [];
+    const name = String(item[2] || "").trim();
+    const address = String(placeInfo[2] || placeInfo[4] || "").trim();
+    const coordinates = Array.isArray(placeInfo[5]) ? placeInfo[5] : [];
+    const latitude = Number(coordinates[2]);
+    const longitude = Number(coordinates[3]);
+    const placeId = typeof placeInfo[7] === "string" ? placeInfo[7] : "";
+    if (!name) return;
+
+    const identity = placeId || `${name}|${address}|${latitude}|${longitude}`;
+    if (seen.has(identity)) return;
+    seen.add(identity);
+
+    const type = classifyGooglePlace(name, address);
+    const area = inferGooglePlaceArea(name, address);
+    const mapUrl = placeId
+      ? `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`
+      : Number.isFinite(latitude) && Number.isFinite(longitude)
+        ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
+        : mapLink(`${name} ${address}`);
+    const directionUrl = Number.isFinite(latitude) && Number.isFinite(longitude)
+      ? `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
+      : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${name} ${address}`)}`;
+
+    result.push({
+      order: result.length + 1,
+      name,
+      type,
+      area,
+      address,
+      image: imageForGooglePlace(type, area),
+      body: address || "已收錄於你的 Google Maps 收藏清單。",
+      links: [
+        { label: "Google Maps", url: mapUrl },
+        { label: "導航", url: directionUrl },
+      ],
+    });
+  });
+
+  return result;
+}
+
+const cachedGooglePlaces = readPlacesCache();
+places.splice(0, places.length, ...(cachedGooglePlaces?.places || []));
+let placesLoadState = places.length ? "ready" : "loading";
+let placesLoadMessage = places.length
+  ? `先顯示上次同步的 ${places.length} 個收藏地點，正在檢查更新…`
+  : "正在同步 Google Maps 的 46 個收藏地點…";
+
+async function fetchGoogleMapsPlaces() {
+  const html = await fetchPublicDocument(GOOGLE_MAPS_LIST_URL, "html");
+  const endpoint = extractEntityListEndpoint(html);
+  const rawPayload = await fetchPublicDocument(endpoint, "text");
+  return googleItemsToPlaces(parseGooglePayload(rawPayload));
+}
+
+function formatPlacesSyncTime(isoString) {
+  if (!isoString) return "";
+  try {
+    return new Intl.DateTimeFormat("zh-TW", {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(isoString));
+  } catch {
+    return "";
+  }
+}
+
+async function syncGooglePlaces({ force = false } = {}) {
+  if (placesLoadState === "loading" && force) return;
+
+  placesLoadState = "loading";
+  placesLoadMessage = force
+    ? "正在重新同步 Google Maps 收藏清單…"
+    : places.length
+      ? `目前顯示 ${places.length} 個快取地點，正在檢查更新…`
+      : "正在同步 Google Maps 的 46 個收藏地點…";
+  renderPlacesStatus();
+  renderPlaces();
+
+  try {
+    const syncedPlaces = await fetchGoogleMapsPlaces();
+    if (!syncedPlaces.length) throw new Error("google_list_empty");
+
+    places.splice(0, places.length, ...syncedPlaces);
+    selectedType = "全部";
+    placesLoadState = "ready";
+    const now = new Date().toISOString();
+    const countNote = syncedPlaces.length === EXPECTED_GOOGLE_PLACE_COUNT
+      ? `已同步全部 ${syncedPlaces.length} 個收藏地點。`
+      : `目前同步到 ${syncedPlaces.length} 個地點；Google 清單回傳數量與預期的 ${EXPECTED_GOOGLE_PLACE_COUNT} 個不同。`;
+    placesLoadMessage = `${countNote} 更新時間 ${formatPlacesSyncTime(now)}。`;
+    writePlacesCache({ savedAt: now, listUrl: GOOGLE_MAPS_LIST_URL, places: syncedPlaces });
+    renderPlaceFilters();
+    renderPlaces();
+    renderPlacesStatus();
+    if (force) showToast("景點收藏已重新同步");
+  } catch (error) {
+    placesLoadState = places.length ? "stale" : "error";
+    const cachedTime = formatPlacesSyncTime(cachedGooglePlaces?.savedAt);
+    placesLoadMessage = places.length
+      ? `即時同步暫時失敗，目前顯示上次同步的 ${places.length} 個地點${cachedTime ? `（${cachedTime}）` : ""}。`
+      : "無法讀取 Google Maps 公開收藏清單。請先確認清單仍開放連結檢視，再按「重新同步收藏」。";
+    renderPlaceFilters();
+    renderPlaces();
+    renderPlacesStatus();
+    console.warn("Google Maps list sync failed", error);
+    if (force) showToast("同步失敗，請稍後再試");
+  }
+}
+
+
 const navTabs = document.querySelectorAll(".nav-tab");
 const views = document.querySelectorAll(".view");
 const dateSwitcher = document.querySelector("#dateSwitcher");
 const dayPanel = document.querySelector("#dayPanel");
 const placeFilters = document.querySelector("#placeFilters");
 const placesGrid = document.querySelector("#placesGrid");
+const placesStatus = document.querySelector("#placesStatus");
+const refreshPlacesButton = document.querySelector("#refreshPlacesButton");
 const foodFilters = document.querySelector("#foodFilters");
 const foodGrid = document.querySelector("#foodGrid");
 const foodPhotoStrip = document.querySelector("#foodPhotoStrip");
@@ -1100,7 +1792,7 @@ function renderLinks(links) {
       ${links
         .map(
           (link) =>
-            `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`,
+            `<a href="${safeExternalUrl(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`,
         )
         .join("")}
     </div>
@@ -1196,13 +1888,21 @@ function renderDayPanel() {
   `;
 }
 
+function renderPlacesStatus() {
+  if (!placesStatus) return;
+  placesStatus.textContent = placesLoadMessage;
+  placesStatus.dataset.state = placesLoadState;
+}
+
 function renderPlaceFilters() {
   const filters = ["全部", ...new Set(places.map((place) => place.type))];
+  if (!filters.includes(selectedType)) selectedType = "全部";
+
   placeFilters.innerHTML = filters
     .map(
       (filter) => `
-        <button class="filter-pill ${filter === selectedType ? "is-active" : ""}" data-filter="${filter}">
-          ${filter}
+        <button class="filter-pill ${filter === selectedType ? "is-active" : ""}" data-filter="${escapeHtml(filter)}">
+          ${escapeHtml(filter)}
         </button>
       `,
     )
@@ -1223,20 +1923,36 @@ function renderPlaces() {
       ? places
       : places.filter((place) => place.type === selectedType);
 
+  if (!visiblePlaces.length) {
+    const heading = placesLoadState === "loading" ? "正在載入收藏地點" : "暫時無法顯示收藏地點";
+    const body = placesLoadState === "loading"
+      ? "第一次同步可能需要十幾秒，完成後會自動顯示並儲存在這台裝置。"
+      : "可先直接開啟原始 Google Maps 清單，或稍後按上方的「重新同步收藏」。";
+    placesGrid.innerHTML = `
+      <article class="place-card place-sync-card">
+        <span class="card-kicker">Google Maps shared list</span>
+        <h4>${heading}</h4>
+        <p>${body}</p>
+        ${renderLinks([{ label: "開啟原始 46 個收藏", url: GOOGLE_MAPS_LIST_URL }])}
+      </article>
+    `;
+    return;
+  }
+
   placesGrid.innerHTML = visiblePlaces
     .map(
       (place) => `
         <article class="place-card">
           ${
             place.image
-              ? `<img class="place-image" src="${place.image.src}" alt="${place.image.alt}" />`
+              ? `<img class="place-image" src="${safeExternalUrl(place.image.src)}" alt="${escapeHtml(place.image.alt)}" loading="lazy" />`
               : ""
           }
-          <span class="card-kicker">${place.area}</span>
-          <h4>${place.name}</h4>
-          <p>${place.body}</p>
+          <span class="card-kicker">${place.order ? `#${place.order} · ` : ""}${escapeHtml(place.area)}</span>
+          <h4>${escapeHtml(place.name)}</h4>
+          <p>${escapeHtml(place.body)}</p>
           <div class="tag-row">
-            <span class="tag">${place.type}</span>
+            <span class="tag">${escapeHtml(place.type)}</span>
           </div>
           ${renderLinks(place.links)}
         </article>
@@ -1477,11 +2193,21 @@ noteForm.addEventListener("submit", async (event) => {
   }
 });
 
+refreshPlacesButton?.addEventListener("click", async () => {
+  refreshPlacesButton.disabled = true;
+  refreshPlacesButton.textContent = "同步中...";
+  await syncGooglePlaces({ force: true });
+  refreshPlacesButton.disabled = false;
+  refreshPlacesButton.textContent = "重新同步收藏";
+});
+
 renderDateSwitcher();
 renderDayPanel();
 renderPlaceFilters();
+renderPlacesStatus();
 renderPlaces();
 renderFoodFilters();
 renderFoodPhotoStrip();
 renderFood();
 renderNotes();
+syncGooglePlaces();
