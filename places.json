@@ -1,5 +1,423 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-06-24T07:12:22.040299+00:00",
   "source_url": "https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu&g_ep=EgoyMDI2MDYyMi4wIKXMDSoASAFQAw%3D%3D",
-  "places": []
+  "list_name": "福岡 - Google マップ",
+  "expected_count": 46,
+  "count": 46,
+  "places": [
+    {
+      "order": 1,
+      "name": "台北駐福岡經濟文化分處",
+      "address": "",
+      "latitude": 33.5742427,
+      "longitude": 130.3856485,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 2,
+      "name": "Iwakura Dazaifu Store",
+      "address": "",
+      "latitude": 33.519661,
+      "longitude": 130.532842,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 3,
+      "name": "柳川屋麵包店",
+      "address": "",
+      "latitude": 24.147257399999997,
+      "longitude": 120.668706,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 4,
+      "name": "YAMAYA BASE マイング店",
+      "address": "",
+      "latitude": 33.5910811,
+      "longitude": 130.4206295,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 5,
+      "name": "The Full Full",
+      "address": "",
+      "latitude": 33.5922368,
+      "longitude": 130.3972642,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 6,
+      "name": "水炊.雞肉料理 とりまぶし",
+      "address": "",
+      "latitude": 33.588321799999996,
+      "longitude": 130.4117726,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 7,
+      "name": "茶壺烏龍麵 博多あかちょこべ",
+      "address": "",
+      "latitude": 33.594150899999995,
+      "longitude": 130.4102667,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 8,
+      "name": "KITTO",
+      "address": "",
+      "latitude": 33.582025699999996,
+      "longitude": 130.4198408,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 9,
+      "name": "I don't knöw",
+      "address": "",
+      "latitude": 33.5818922,
+      "longitude": 130.4201398,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 10,
+      "name": "JOY TRIP CAFE",
+      "address": "",
+      "latitude": 33.5836243,
+      "longitude": 130.3957586,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 11,
+      "name": "新三浦 天神店",
+      "address": "",
+      "latitude": 33.5916303,
+      "longitude": 130.3984631,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 12,
+      "name": "水炊老店 新三浦",
+      "address": "",
+      "latitude": 33.605133099999996,
+      "longitude": 130.4076309,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 13,
+      "name": "黒毛和牛 博多和牛まぶし 武蔵【天神店】",
+      "address": "",
+      "latitude": 33.587038299999996,
+      "longitude": 130.3999833,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 14,
+      "name": "黒毛和牛 博多牛まぶし 武蔵",
+      "address": "",
+      "latitude": 33.5900989,
+      "longitude": 130.4229698,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 15,
+      "name": "牛腸鍋 一藤 今泉本店",
+      "address": "",
+      "latitude": 33.5858444,
+      "longitude": 130.4001361,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 16,
+      "name": "宇どんヤかまわん",
+      "address": "",
+      "latitude": 33.5894396,
+      "longitude": 130.4053284,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 17,
+      "name": "Shin-Shin 博多拉麵 福岡PARCO店",
+      "address": "",
+      "latitude": 33.590874,
+      "longitude": 130.39855,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 18,
+      "name": "博多拉麵 ShinShin 天神本店",
+      "address": "",
+      "latitude": 33.5927497,
+      "longitude": 130.39684459999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 19,
+      "name": "Shin-Shin 博多拉麵 KITTE博多店",
+      "address": "",
+      "latitude": 33.588797899999996,
+      "longitude": 130.419445,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 20,
+      "name": "麵屋兼虎 天神本店",
+      "address": "",
+      "latitude": 33.5872002,
+      "longitude": 130.40120299999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 21,
+      "name": "麵屋兼虎 福岡PARCO店",
+      "address": "",
+      "latitude": 33.590742299999995,
+      "longitude": 130.3986649,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 22,
+      "name": "麵屋兼虎 博多DEITOS店",
+      "address": "",
+      "latitude": 33.5910029,
+      "longitude": 130.421258,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 23,
+      "name": "燒肉上",
+      "address": "",
+      "latitude": 33.582431,
+      "longitude": 130.4040752,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 24,
+      "name": "博多辛子明太子島本 博多站前店",
+      "address": "",
+      "latitude": 33.5945171,
+      "longitude": 130.4144998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 25,
+      "name": "辛子明太子の島本 博多阪急店",
+      "address": "",
+      "latitude": 33.5895089,
+      "longitude": 130.42042379999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 26,
+      "name": "名產鶴乃子 石村萬盛堂 本店",
+      "address": "",
+      "latitude": 33.595926,
+      "longitude": 130.404348,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 27,
+      "name": "Fuk Coffee",
+      "address": "",
+      "latitude": 33.5908498,
+      "longitude": 130.4127288,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 28,
+      "name": "AMAM DACOTAN Ropponmatsu store",
+      "address": "",
+      "latitude": 33.5780905,
+      "longitude": 130.3814397,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 29,
+      "name": "dacō",
+      "address": "",
+      "latitude": 33.5859837,
+      "longitude": 130.3965253,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 30,
+      "name": "Imonne Hakata",
+      "address": "",
+      "latitude": 33.5888618,
+      "longitude": 130.4195794,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 31,
+      "name": "Jiichiro JR Hakata City",
+      "address": "",
+      "latitude": 33.589790799999996,
+      "longitude": 130.4209133,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 32,
+      "name": "Pain Stock Tenjin",
+      "address": "",
+      "latitude": 33.5916517,
+      "longitude": 130.40404189999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 33,
+      "name": "冷凍炸雞 努努雞",
+      "address": "",
+      "latitude": 33.59098,
+      "longitude": 130.420738,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 34,
+      "name": "Kawaya Gion",
+      "address": "",
+      "latitude": 33.592652799999996,
+      "longitude": 130.41476559999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 35,
+      "name": "OotDog",
+      "address": "",
+      "latitude": 33.5930484,
+      "longitude": 130.1117981,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 36,
+      "name": "ぱん屋のぺったん",
+      "address": "",
+      "latitude": 33.594763,
+      "longitude": 130.4128111,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 37,
+      "name": "Yagura",
+      "address": "",
+      "latitude": 33.5916412,
+      "longitude": 130.41446,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 38,
+      "name": "BOUL'ANGE",
+      "address": "",
+      "latitude": 33.592605299999995,
+      "longitude": 130.4157339,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 39,
+      "name": "水炊料亭 博多華味鳥 博多站前店",
+      "address": "",
+      "latitude": 33.588412399999996,
+      "longitude": 130.4169732,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 40,
+      "name": "Menya ISHII",
+      "address": "",
+      "latitude": 33.5878377,
+      "longitude": 130.4164107,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 41,
+      "name": "牛雜鍋 一藤",
+      "address": "",
+      "latitude": 33.590323399999996,
+      "longitude": 130.416589,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 42,
+      "name": "The Full Full Hakata",
+      "address": "",
+      "latitude": 33.5898843,
+      "longitude": 130.4125482,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 43,
+      "name": "一蘭拉麵 總本店",
+      "address": "",
+      "latitude": 33.5932405,
+      "longitude": 130.4045974,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 44,
+      "name": "櫛田神社",
+      "address": "",
+      "latitude": 33.5929546,
+      "longitude": 130.41045889999998,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 45,
+      "name": "Dacomecca",
+      "address": "",
+      "latitude": 33.5874397,
+      "longitude": 130.4193439,
+      "google_maps_url": "",
+      "google_place_id": ""
+    },
+    {
+      "order": 46,
+      "name": "ゆったり1LDKで最大8人まで宿泊可能！博多駅・キャナルも徒歩圏内！コンビニ・スーパー徒歩１分！",
+      "address": "",
+      "latitude": 33.5822649,
+      "longitude": 130.417321,
+      "google_maps_url": "",
+      "google_place_id": ""
+    }
+  ]
 }
