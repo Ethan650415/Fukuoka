@@ -36,3 +36,13 @@
 到 Supabase 的 **SQL Editor** 執行 `SUPABASE_REPAIR.sql` 全部內容，重新補上資料表、GRANT 與 RLS policies。
 
 部署後請用網址尾端 `?v=19` 開啟。
+
+## v20：Google Maps 收藏清單更新
+
+v20 不再安裝不存在的 `gmaps-list` 套件，改用 Playwright + Chromium 開啟公開清單並產生 `places.json`。
+
+1. 上傳完整專案後，到 `Actions`。
+2. 選擇 `Refresh Google Maps places`。
+3. 點 `Run workflow`。
+4. 成功後，repository 會出現由 `github-actions[bot]` 更新的 `places.json`。
+5. 若失敗，執行頁面底部會提供 `google-maps-debug` artifact，可下載除錯畫面。
