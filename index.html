@@ -10,7 +10,7 @@
     <title>福岡旅伴手冊｜6/25-6/30</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=19" />
   </head>
   <body>
     <div class="app-shell">
@@ -165,13 +165,13 @@
           <div class="section-heading">
             <div>
               <h3>Google Maps 收藏地點</h3>
-              <p>已改用你提供的公開收藏清單，目標同步其中 46 個地點；可依類型篩選並直接開啟地圖或導航。</p>
+              <p>已改用由 GitHub Actions 產生的固定資料檔，不再由瀏覽器直接讀取 Google Maps；可依類型篩選並開啟地圖或導航。</p>
             </div>
             <div class="places-heading-tools">
-              <p id="placesStatus" data-state="loading">正在同步 Google Maps 的 46 個收藏地點…</p>
+              <p id="placesStatus" data-state="loading">正在讀取已匯入的 46 個收藏地點…</p>
               <div class="places-action-row">
                 <a class="ghost-button button-link" href="https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu" target="_blank" rel="noopener noreferrer">開啟原始清單</a>
-                <button class="ghost-button" id="refreshPlacesButton" type="button">重新同步收藏</button>
+                <button class="ghost-button" id="refreshPlacesButton" type="button">重新讀取景點</button>
               </div>
             </div>
           </div>
@@ -216,7 +216,7 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="./config.js?v=18"></script>
-    <script src="./app.js?v=18"></script>
+    <script src="./config.js?v=19"></script>
+    <script src="./app.js?v=19"></script>
   </body>
 </html>

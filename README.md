@@ -25,3 +25,14 @@
 
 - 6/27：太宰府＋柳川
 - 6/28：糸島自駕一日遊
+
+
+## v19 修正
+
+### 景點清單
+瀏覽器不再直接抓 Google Maps。上傳全部檔案後，到 GitHub repository 的 **Actions** 頁面，執行 **Refresh Google Maps places**。工作完成後會自動更新 `places.json`，GitHub Pages 隨後顯示收藏地點。
+
+### Supabase 備註
+到 Supabase 的 **SQL Editor** 執行 `SUPABASE_REPAIR.sql` 全部內容，重新補上資料表、GRANT 與 RLS policies。
+
+部署後請用網址尾端 `?v=19` 開啟。

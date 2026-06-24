@@ -1366,7 +1366,7 @@ itinerary.splice(
 const GOOGLE_MAPS_LIST_URL =
   "https://www.google.com/maps/@28.9841821,120.3273365,6z/data=!4m2!11m1!2sv_pThMLtEkPlnOMJG1rJS0XH7w0oSA?entry=ttu&g_ep=EgoyMDI2MDYyMi4wIKXMDSoASAFQAw%3D%3D";
 const EXPECTED_GOOGLE_PLACE_COUNT = 46;
-const GOOGLE_PLACES_CACHE_KEY = "fukuoka-google-maps-list-v2";
+const GOOGLE_PLACES_DATA_URL = "./places.json";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -1386,207 +1386,6 @@ function safeExternalUrl(value) {
   }
 }
 
-function readPlacesCache() {
-  try {
-    const payload = JSON.parse(localStorage.getItem(GOOGLE_PLACES_CACHE_KEY) || "null");
-    return payload && Array.isArray(payload.places) ? payload : null;
-  } catch {
-    return null;
-  }
-}
-
-function writePlacesCache(payload) {
-  try {
-    localStorage.setItem(GOOGLE_PLACES_CACHE_KEY, JSON.stringify(payload));
-  } catch {
-    // The live list still works when local storage is unavailable.
-  }
-}
-
-function decodeHtmlEntities(value) {
-  const textarea = document.createElement("textarea");
-  textarea.innerHTML = String(value ?? "");
-  return textarea.value;
-}
-
-function unwrapReaderPayload(raw) {
-  const text = String(raw ?? "").trim();
-  if (!text) return "";
-
-  if (text.startsWith("{") || text.startsWith("[")) {
-    try {
-      const parsed = JSON.parse(text);
-      const content =
-        parsed?.data?.content || parsed?.content || parsed?.data || parsed?.result || null;
-      if (typeof content === "string") return content;
-    } catch {
-      // It may already be the Google JSON payload.
-    }
-  }
-
-  return text;
-}
-
-async function fetchWithTimeout(url, options = {}, timeoutMs = 30000) {
-  const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const response = await fetch(url, { ...options, signal: controller.signal });
-    if (!response.ok) throw new Error(`request_failed_${response.status}`);
-    return response.text();
-  } finally {
-    window.clearTimeout(timer);
-  }
-}
-
-async function readViaJina(targetUrl, responseFormat = "html") {
-  const postOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Respond-With": responseFormat,
-      "X-Engine": "browser",
-      "X-No-Cache": "true",
-    },
-    body: JSON.stringify({ url: targetUrl }),
-    cache: "no-store",
-  };
-
-  try {
-    return unwrapReaderPayload(await fetchWithTimeout("https://r.jina.ai/", postOptions));
-  } catch {
-    const readerUrl = new URL(`https://r.jina.ai/${targetUrl}`);
-    readerUrl.searchParams.set("respondWith", responseFormat);
-    readerUrl.searchParams.set("engine", "browser");
-    readerUrl.searchParams.set("noCache", "true");
-    return unwrapReaderPayload(
-      await fetchWithTimeout(readerUrl.href, { cache: "no-store" }),
-    );
-  }
-}
-
-async function readViaAllOrigins(targetUrl) {
-  const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}&t=${Date.now()}`;
-  return fetchWithTimeout(proxy, { cache: "no-store" });
-}
-
-async function fetchPublicDocument(targetUrl, responseFormat = "html") {
-  const attempts = [
-    () => readViaJina(targetUrl, responseFormat),
-    () => readViaAllOrigins(targetUrl),
-  ];
-  let lastError;
-
-  for (const attempt of attempts) {
-    try {
-      const result = await attempt();
-      if (result && result.length > 20) return result;
-    } catch (error) {
-      lastError = error;
-    }
-  }
-
-  throw lastError || new Error("public_document_fetch_failed");
-}
-
-function normalizedGoogleHtml(rawHtml) {
-  const initial = unwrapReaderPayload(rawHtml);
-  const variants = [
-    initial,
-    initial
-      .replaceAll("\\u003d", "=")
-      .replaceAll("\\u0026", "&")
-      .replaceAll("\\u0025", "%")
-      .replaceAll("\\/", "/"),
-  ];
-
-  try {
-    variants.push(decodeURIComponent(variants[1]));
-  } catch {
-    // Some percent signs do not form an encoded sequence.
-  }
-
-  return variants;
-}
-
-function extractEntityListEndpoint(rawHtml) {
-  for (const html of normalizedGoogleHtml(rawHtml)) {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const element = [...doc.querySelectorAll("link[href], a[href]")].find((node) =>
-      node.getAttribute("href")?.includes("entitylist/getlist"),
-    );
-
-    let candidate = element?.getAttribute("href") || "";
-    if (!candidate) {
-      const match = html.match(
-        /(https?:\\?\/\\?\/[^\s"'<>]*entitylist\\?\/getlist[^\s"'<>]*)|((?:\/|\\u002F)maps(?:\/|\\u002F)rpc(?:\/|\\u002F)entitylist(?:\/|\\u002F)getlist[^\s"'<>]*)/i,
-      );
-      candidate = match?.[0] || "";
-    }
-
-    if (!candidate) continue;
-    candidate = decodeHtmlEntities(candidate)
-      .replaceAll("\\u003d", "=")
-      .replaceAll("\\u0026", "&")
-      .replaceAll("\\u002F", "/")
-      .replaceAll("\\/", "/");
-
-    try {
-      return new URL(candidate, "https://www.google.com").href;
-    } catch {
-      // Continue to the next HTML representation.
-    }
-  }
-
-  throw new Error("google_list_endpoint_not_found");
-}
-
-function parseGooglePayload(rawPayload) {
-  let text = unwrapReaderPayload(rawPayload)
-    .replace(/^\s*\)\]\}'\s*/, "")
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/```\s*$/, "")
-    .trim();
-
-  const starts = [text.indexOf("["), text.indexOf("{")].filter((index) => index >= 0);
-  if (!starts.length) throw new Error("google_list_json_not_found");
-  text = text.slice(Math.min(...starts));
-  return JSON.parse(text);
-}
-
-function findPlaceItemArray(payload) {
-  let best = { score: 0, items: [] };
-  const queue = [{ value: payload, depth: 0 }];
-  let visited = 0;
-
-  while (queue.length && visited < 40000) {
-    const { value, depth } = queue.shift();
-    visited += 1;
-    if (!Array.isArray(value)) continue;
-
-    const score = value.filter(
-      (item) =>
-        Array.isArray(item) &&
-        typeof item[2] === "string" &&
-        item[2].trim() &&
-        Array.isArray(item[1]),
-    ).length;
-    if (score > best.score) best = { score, items: value };
-
-    if (depth < 9) {
-      value.forEach((child) => {
-        if (Array.isArray(child)) queue.push({ value: child, depth: depth + 1 });
-      });
-    }
-  }
-
-  if (!best.score) throw new Error("google_list_items_not_found");
-  return best.items.filter(
-    (item) => Array.isArray(item) && typeof item[2] === "string" && Array.isArray(item[1]),
-  );
-}
-
 function classifyGooglePlace(name, address) {
   const text = `${name} ${address}`;
   if (/咖啡|珈琲|cafe|coffee|甜點|菓子|蛋糕|可頌|麵包|パン|冰淇淋|gelato|抹茶|茶房/i.test(text)) {
@@ -1595,7 +1394,7 @@ function classifyGooglePlace(name, address) {
   if (/餐廳|食堂|拉麵|ラーメン|うどん|蕎麥|そば|壽司|寿司|燒肉|焼肉|居酒屋|屋台|酒場|鰻|うなぎ|牛腸鍋|もつ鍋|餃子|咖哩|カレー|burger|restaurant|dining|市場|market/i.test(text)) {
     return "餐飲";
   }
-  if (/百貨|商場|mall|plaza|地下街|選物|雜貨|書店|藥妝|outlet|店$|ショップ|shop|market/i.test(text)) {
+  if (/百貨|商場|mall|plaza|地下街|選物|雜貨|書店|藥妝|outlet|店$|ショップ|shop/i.test(text)) {
     return "購物";
   }
   if (/駅|車站|空港|機場|巴士|bus terminal|港|渡船|parking|駐車場/i.test(text)) {
@@ -1635,67 +1434,42 @@ function imageForGooglePlace(type, area) {
   return images.ohori;
 }
 
-function googleItemsToPlaces(payload) {
-  const rawItems = findPlaceItemArray(payload);
-  const seen = new Set();
-  const result = [];
+function normalizeStaticGooglePlace(item, index) {
+  const name = String(item?.name || "").trim();
+  if (!name) return null;
+  const address = String(item?.address || "").trim();
+  const latitude = Number(item?.latitude);
+  const longitude = Number(item?.longitude);
+  const placeId = String(item?.google_place_id || item?.place_id || "").trim();
+  const type = item?.type || classifyGooglePlace(name, address);
+  const area = item?.area || inferGooglePlaceArea(name, address);
+  const mapUrl = item?.google_maps_url || (placeId
+    ? `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`
+    : Number.isFinite(latitude) && Number.isFinite(longitude)
+      ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
+      : mapLink(`${name} ${address}`));
+  const directionUrl = Number.isFinite(latitude) && Number.isFinite(longitude)
+    ? `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
+    : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${name} ${address}`)}`;
 
-  rawItems.forEach((item) => {
-    const placeInfo = item[1] || [];
-    const name = String(item[2] || "").trim();
-    const address = String(placeInfo[2] || placeInfo[4] || "").trim();
-    const coordinates = Array.isArray(placeInfo[5]) ? placeInfo[5] : [];
-    const latitude = Number(coordinates[2]);
-    const longitude = Number(coordinates[3]);
-    const placeId = typeof placeInfo[7] === "string" ? placeInfo[7] : "";
-    if (!name) return;
-
-    const identity = placeId || `${name}|${address}|${latitude}|${longitude}`;
-    if (seen.has(identity)) return;
-    seen.add(identity);
-
-    const type = classifyGooglePlace(name, address);
-    const area = inferGooglePlaceArea(name, address);
-    const mapUrl = placeId
-      ? `https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(placeId)}`
-      : Number.isFinite(latitude) && Number.isFinite(longitude)
-        ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`
-        : mapLink(`${name} ${address}`);
-    const directionUrl = Number.isFinite(latitude) && Number.isFinite(longitude)
-      ? `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`
-      : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${name} ${address}`)}`;
-
-    result.push({
-      order: result.length + 1,
-      name,
-      type,
-      area,
-      address,
-      image: imageForGooglePlace(type, area),
-      body: address || "已收錄於你的 Google Maps 收藏清單。",
-      links: [
-        { label: "Google Maps", url: mapUrl },
-        { label: "導航", url: directionUrl },
-      ],
-    });
-  });
-
-  return result;
+  return {
+    order: Number(item?.order) || index + 1,
+    name,
+    type,
+    area,
+    address,
+    image: imageForGooglePlace(type, area),
+    body: address || "已收錄於你的 Google Maps 收藏清單。",
+    links: [
+      { label: "Google Maps", url: mapUrl },
+      { label: "導航", url: directionUrl },
+    ],
+  };
 }
 
-const cachedGooglePlaces = readPlacesCache();
-places.splice(0, places.length, ...(cachedGooglePlaces?.places || []));
-let placesLoadState = places.length ? "ready" : "loading";
-let placesLoadMessage = places.length
-  ? `先顯示上次同步的 ${places.length} 個收藏地點，正在檢查更新…`
-  : "正在同步 Google Maps 的 46 個收藏地點…";
-
-async function fetchGoogleMapsPlaces() {
-  const html = await fetchPublicDocument(GOOGLE_MAPS_LIST_URL, "html");
-  const endpoint = extractEntityListEndpoint(html);
-  const rawPayload = await fetchPublicDocument(endpoint, "text");
-  return googleItemsToPlaces(parseGooglePayload(rawPayload));
-}
+places.splice(0, places.length);
+let placesLoadState = "loading";
+let placesLoadMessage = "正在讀取已匯入的 46 個 Google Maps 收藏地點…";
 
 function formatPlacesSyncTime(isoString) {
   if (!isoString) return "";
@@ -1712,48 +1486,58 @@ function formatPlacesSyncTime(isoString) {
 }
 
 async function syncGooglePlaces({ force = false } = {}) {
-  if (placesLoadState === "loading" && force) return;
-
   placesLoadState = "loading";
   placesLoadMessage = force
-    ? "正在重新同步 Google Maps 收藏清單…"
-    : places.length
-      ? `目前顯示 ${places.length} 個快取地點，正在檢查更新…`
-      : "正在同步 Google Maps 的 46 個收藏地點…";
+    ? "正在重新讀取景點資料檔…"
+    : "正在讀取已匯入的 46 個 Google Maps 收藏地點…";
   renderPlacesStatus();
   renderPlaces();
 
   try {
-    const syncedPlaces = await fetchGoogleMapsPlaces();
-    if (!syncedPlaces.length) throw new Error("google_list_empty");
+    const url = new URL(GOOGLE_PLACES_DATA_URL, window.location.href);
+    url.searchParams.set("v", "19");
+    if (force) url.searchParams.set("t", String(Date.now()));
+    const response = await fetch(url.href, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error(`places_http_${response.status}`);
+    const payload = await response.json();
+    const rawPlaces = Array.isArray(payload) ? payload : payload?.places;
+    if (!Array.isArray(rawPlaces) || !rawPlaces.length) {
+      throw new Error("places_file_empty");
+    }
+
+    const syncedPlaces = rawPlaces
+      .map(normalizeStaticGooglePlace)
+      .filter(Boolean);
+    if (!syncedPlaces.length) throw new Error("places_parse_empty");
 
     places.splice(0, places.length, ...syncedPlaces);
     selectedType = "全部";
     placesLoadState = "ready";
-    const now = new Date().toISOString();
+    const generatedAt = payload?.generated_at || payload?.generatedAt || "";
     const countNote = syncedPlaces.length === EXPECTED_GOOGLE_PLACE_COUNT
-      ? `已同步全部 ${syncedPlaces.length} 個收藏地點。`
-      : `目前同步到 ${syncedPlaces.length} 個地點；Google 清單回傳數量與預期的 ${EXPECTED_GOOGLE_PLACE_COUNT} 個不同。`;
-    placesLoadMessage = `${countNote} 更新時間 ${formatPlacesSyncTime(now)}。`;
-    writePlacesCache({ savedAt: now, listUrl: GOOGLE_MAPS_LIST_URL, places: syncedPlaces });
+      ? `已載入全部 ${syncedPlaces.length} 個收藏地點。`
+      : `目前載入 ${syncedPlaces.length} 個地點；與預期的 ${EXPECTED_GOOGLE_PLACE_COUNT} 個不同。`;
+    placesLoadMessage = generatedAt
+      ? `${countNote} 資料更新時間 ${formatPlacesSyncTime(generatedAt)}。`
+      : countNote;
     renderPlaceFilters();
     renderPlaces();
     renderPlacesStatus();
-    if (force) showToast("景點收藏已重新同步");
+    if (force) showToast("景點資料已重新載入");
   } catch (error) {
-    placesLoadState = places.length ? "stale" : "error";
-    const cachedTime = formatPlacesSyncTime(cachedGooglePlaces?.savedAt);
-    placesLoadMessage = places.length
-      ? `即時同步暫時失敗，目前顯示上次同步的 ${places.length} 個地點${cachedTime ? `（${cachedTime}）` : ""}。`
-      : "無法讀取 Google Maps 公開收藏清單。請先確認清單仍開放連結檢視，再按「重新同步收藏」。";
+    placesLoadState = "error";
+    placesLoadMessage =
+      "景點資料檔尚未建立。請到 GitHub Actions 執行「Refresh Google Maps places」，完成後再重新整理。";
     renderPlaceFilters();
     renderPlaces();
     renderPlacesStatus();
-    console.warn("Google Maps list sync failed", error);
-    if (force) showToast("同步失敗，請稍後再試");
+    console.warn("Static Google Maps places load failed", error);
+    if (force) showToast("景點資料尚未產生");
   }
 }
-
 
 const navTabs = document.querySelectorAll(".nav-tab");
 const views = document.querySelectorAll(".view");
@@ -1926,8 +1710,8 @@ function renderPlaces() {
   if (!visiblePlaces.length) {
     const heading = placesLoadState === "loading" ? "正在載入收藏地點" : "暫時無法顯示收藏地點";
     const body = placesLoadState === "loading"
-      ? "第一次同步可能需要十幾秒，完成後會自動顯示並儲存在這台裝置。"
-      : "可先直接開啟原始 Google Maps 清單，或稍後按上方的「重新同步收藏」。";
+      ? "網站會從同一個 GitHub Pages 網域讀取 places.json，不再由瀏覽器直接抓取 Google Maps。"
+      : "請先到 GitHub Actions 執行景點資料更新；也可直接開啟原始 Google Maps 清單。";
     placesGrid.innerHTML = `
       <article class="place-card place-sync-card">
         <span class="card-kicker">Google Maps shared list</span>
@@ -2043,12 +1827,28 @@ const supabaseBaseUrl = (appConfig.supabaseUrl || "")
   .replace(/\/rest\/v1\/?$/, "")
   .replace(/\/$/, "");
 
-function noteHeaders() {
-  return {
+function noteHeaders({ json = true } = {}) {
+  const headers = {
     apikey: appConfig.supabaseAnonKey,
-    Authorization: `Bearer ${appConfig.supabaseAnonKey}`,
-    "Content-Type": "application/json",
+    Accept: "application/json",
   };
+  if (json) headers["Content-Type"] = "application/json";
+  return headers;
+}
+
+async function parseSupabaseError(response) {
+  let detail = "";
+  try {
+    const payload = await response.clone().json();
+    detail = payload?.message || payload?.hint || payload?.details || payload?.code || "";
+  } catch {
+    try {
+      detail = (await response.clone().text()).slice(0, 160);
+    } catch {
+      detail = "";
+    }
+  }
+  return detail ? `${response.status} ${detail}` : String(response.status);
 }
 
 function notesEndpoint(query = "") {
@@ -2078,7 +1878,9 @@ async function fetchNotes() {
     },
   );
 
-  if (!response.ok) throw new Error("notes_fetch_failed");
+  if (!response.ok) {
+    throw new Error(`notes_fetch_failed:${await parseSupabaseError(response)}`);
+  }
   return response.json();
 }
 
@@ -2096,7 +1898,9 @@ async function createNote(note) {
     body: JSON.stringify(note),
   });
 
-  if (!response.ok) throw new Error("notes_create_failed");
+  if (!response.ok) {
+    throw new Error(`notes_create_failed:${await parseSupabaseError(response)}`);
+  }
 }
 
 async function deleteNote(noteId) {
@@ -2116,7 +1920,9 @@ async function deleteNote(noteId) {
     cache: "no-store",
   });
 
-  if (!response.ok) throw new Error("notes_delete_failed");
+  if (!response.ok) {
+    throw new Error(`notes_delete_failed:${await parseSupabaseError(response)}`);
+  }
 }
 
 function renderNotesList(notes) {
@@ -2125,8 +1931,8 @@ function renderNotesList(notes) {
         .map(
           (note) => `
             <article class="note-card">
-              <h4>${note.title}</h4>
-              <p>${note.body}</p>
+              <h4>${escapeHtml(note.title)}</h4>
+              <p>${escapeHtml(note.body)}</p>
               <button type="button" data-delete-note="${note.id}">刪除</button>
             </article>
           `,
@@ -2143,9 +1949,13 @@ async function renderNotes() {
   try {
     const notes = await fetchNotes();
     renderNotesList(notes);
-  } catch {
-    notesStatus.textContent = "雲端備註暫時無法載入，請檢查 Supabase 設定或網路連線。";
+  } catch (error) {
+    const detail = String(error?.message || "").split(":").slice(1).join(":");
+    notesStatus.textContent = detail
+      ? `雲端備註無法載入（${detail}）。請執行修復 SQL 後再試。`
+      : "雲端備註無法載入。請執行修復 SQL 後再試。";
     renderNotesList(localNotes());
+    console.warn("Supabase notes load failed", error);
   }
 }
 
@@ -2161,10 +1971,11 @@ noteList.addEventListener("click", async (event) => {
     await deleteNote(noteId);
     await renderNotes();
     showToast("備註已刪除");
-  } catch {
+  } catch (error) {
     button.disabled = false;
     button.textContent = "刪除";
-    showToast("刪除失敗，請重新整理後再試");
+    console.warn("Supabase note delete failed", error);
+    showToast("刪除失敗，請先執行 Supabase 修復 SQL");
   }
 });
 
@@ -2188,8 +1999,9 @@ noteForm.addEventListener("submit", async (event) => {
     noteForm.reset();
     await renderNotes();
     showToast(hasCloudNotes ? "備註已同步" : "備註已新增到本機");
-  } catch {
-    showToast("備註新增失敗，請稍後再試");
+  } catch (error) {
+    console.warn("Supabase note create failed", error);
+    showToast("備註新增失敗，請先執行 Supabase 修復 SQL");
   }
 });
 
